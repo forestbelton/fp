@@ -62,8 +62,6 @@ static void fp_recip(fp_t *a, fp_t *b) {
   }
 }
 
-static fp_t FP_TWO = {1, 0x80, {2}};
-
 void fp_div(fp_t *a, fp_t *b, fp_t *c) {
   fp_t a1 = *a;
   fp_t b1 = *b;

@@ -18,33 +18,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef FP_H_
-#define FP_H_
+#include "fp.h"
 
-#include <stdint.h>
-
-/* Must be an even number. */
-#define FP_DIGITS 14
-
-/* Floating-point format. */
-typedef struct {
-  uint8_t sgn;
-  uint8_t expt;
-  uint8_t data[FP_DIGITS / 2];
-} fp_t;
-
-/* Floating-point API. */
-void fp_add(fp_t *a, fp_t *b, fp_t *c); /* C <- A + B */
-void fp_sub(fp_t *a, fp_t *b, fp_t *c); /* C <- A - B */
-void fp_mul(fp_t *a, fp_t *b, fp_t *c); /* C <- A * B */
-void fp_div(fp_t *a, fp_t *b, fp_t *c); /* C <- A / B */
-void fp_abs(fp_t *a, fp_t *b);          /* B <- ||A|| */
-
-void fp_fromstr(fp_t *out, const char *value);
-void fp_tostr  (fp_t *f, char *out);
-
-/* Available constants. */
-extern fp_t FP_ZERO, FP_ONE, FP_TWO, FP_PI, FP_E;
-
-#endif
+fp_t FP_ZERO = {0, 0x7f, {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
+fp_t FP_ONE  = {0, 0x80, {0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
+fp_t FP_TWO  = {0, 0x80, {0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
+fp_t FP_PI   = {0, 0x80, {0x31, 0x41, 0x59, 0x26, 0x53, 0x58, 0x97}};
+fp_t FP_E    = {0, 0x80, {0x27, 0x18, 0x28, 0x18, 0x28, 0x45, 0x90}};
 
