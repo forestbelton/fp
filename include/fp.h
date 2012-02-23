@@ -35,6 +35,7 @@ typedef struct {
 
 /* Floating-point API. */
 void fp_add(fp_t *a, fp_t *b, fp_t *c); /* C <- A + B */
+void fp_sub(fp_t *a, fp_t *b, fp_t *c); /* C <- A - B */
 void fp_mul(fp_t *a, fp_t *b, fp_t *c); /* C <- A * B */
 void fp_div(fp_t *a, fp_t *b, fp_t *c); /* C <- A / B */
 

@@ -21,6 +21,13 @@
 #include "fp.h"
 #include "util.h"
 
+/* This is just a wrapper over fp_add for ease-of-use. */
+void fp_sub(fp_t *a, fp_t *b, fp_t *c) {
+  b->sgn ^= 1;
+  fp_add(a, b, c);
+  b->sgn ^= 1;
+}
+
 /* This is an INTERNAL function that subtracts two numbers. It ignores the sign
  * of both operands and subtracts the unsigned value of the second from the
  * unsigned value of the first. Actual subtraction should be performed by
