@@ -1,4 +1,4 @@
-CFILES := src/add.c src/sub.c src/misc.c src/mul.c
+CFILES := src/add.c src/sub.c src/misc.c src/mul.c src/div.c
 OFILES := $(CFILES:.c=.o)
 
 CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 -Wno-unused-parameter
@@ -12,4 +12,4 @@ check : $(OFILES)
 	gcc $< $(CFLAGS) -c -o $@
 
 clean :
-	rm -rf $(OFILES)
+	rm -rf $(OFILES) test/driver test/driver.exe
