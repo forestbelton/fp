@@ -52,6 +52,8 @@ void fp_fromstr(fp_t *out, const char *str) {
    * space left. */
   i = 0;
   while(*str) {
+    printf("i: %u\n", i);
+
     /* Note if the decimal point has been encountered. */
     if(*str == '.') {
       done = 1;
@@ -66,12 +68,16 @@ void fp_fromstr(fp_t *out, const char *str) {
     
     /* The decimal point has been encountered and the floating-point value has
      * been filled with digits. Any further iteration would be needless. */
-    if(done && i == sizeof out->data)
+    if(done && i == sizeof out->data * 2) {
+      printf("no more room\n");
       break;
+    }
     
     /* Add the digit if there is any room left and continue iteration. */
-    if(i < sizeof out->data)
+    if(i < sizeof out->data * 2) {
+      printf("adding digit %c\n", *str);
       fp_setdigit(out, i++, *str - '0');
+    }
     ++str;
   }
 }
