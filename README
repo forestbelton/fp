@@ -1,8 +1,7 @@
 fp
 ==
 
-I don't really have anything to say quite yet about this project. fp is an API that implements
-a decimal floating-point format with up 14 digits of precision.
+I don't really have anything to say quite yet about this project. fp is an API that implements a decimal floating-point format with up 14 digits of precision.
 
 Supported operations
 ====================
