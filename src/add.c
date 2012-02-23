@@ -22,13 +22,13 @@
 #include "fp.h"
 #include "util.h"
 
-/* Prototype for the internal fp_sub function. */
-void fp_sub(fp_t *a, fp_t *b, fp_t *c, uint8_t offset[2]);
+/* Prototype for the internal subtraction routine. */
+void fp_isub(fp_t *a, fp_t *b, fp_t *c, uint8_t offset[2]);
 
 /*
  * This function takes two normalized floating-point values and adds them
  * together to produce a normalized result and store it in the parameter c.
- * If this "addition" is actually a subtraction, it internally calls fp_sub.
+ * If this "addition" is actually a subtraction, it internally calls fp_isub.
  * 
  * NOTE: Eventually this function will be extended to return a result
  *       indicating the success of this function to include overflow
@@ -58,7 +58,7 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
     
     /* c <- a + (-b) = a - b    */
     case 1:
-      fp_sub(a, b, &out, offset);
+      fp_isub(a, b, &out, offset);
       *c = out;
     return;
     
@@ -67,7 +67,7 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
       tmp       = offset[0];
       offset[0] = offset[1];
       offset[1] = tmp;
-      fp_sub(b, a, &out, offset);
+      fp_isub(b, a, &out, offset);
       *c = out;
     return;
     

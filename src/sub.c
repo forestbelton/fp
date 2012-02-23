@@ -25,7 +25,7 @@
  * of both operands and subtracts the unsigned value of the second from the
  * unsigned value of the first. Actual subtraction should be performed by
  * calling fp_add with an inverted sign. */
-void fp_sub(fp_t *a, fp_t *b, fp_t *c, uint8_t offset[2]) {
+void fp_isub(fp_t *a, fp_t *b, fp_t *c, uint8_t offset[2]) {
   int i, borrow;
   int digit[2];
   
