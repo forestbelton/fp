@@ -18,30 +18,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef FP_H_
-#define FP_H_
-
 #include <stdint.h>
+#include "fp.h"
 
-/* Must be an even number. */
-#define FP_DIGITS 14
-
-/* Floating-point format. */
-typedef struct {
-  uint8_t sgn;
-  uint8_t expt;
-  uint8_t data[FP_DIGITS / 2];
-} fp_t;
-
-/* Floating-point API. */
-void fp_add(fp_t *a, fp_t *b, fp_t *c); /* C <- A + B */
-void fp_sub(fp_t *a, fp_t *b, fp_t *c); /* C <- A - B */
-void fp_mul(fp_t *a, fp_t *b, fp_t *c); /* C <- A * B */
-void fp_div(fp_t *a, fp_t *b, fp_t *c); /* C <- A / B */
-void fp_abs(fp_t *a, fp_t *b);          /* B <- ||A|| */
-
-void fp_fromstr(fp_t *out, const char *value);
-void fp_tostr  (fp_t *f, char *out);
-
-#endif
+/* Computes the absolute value of a and stores the result in b. */
+void fp_abs(fp_t *a, fp_t *b) {
+  *b     = *a;
+  b->sgn = 0;
+}
 
