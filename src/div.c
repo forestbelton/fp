@@ -55,9 +55,10 @@ static fp_t SEPTIC_COEFFICIENTS[8] = {
 static void fp_recip(fp_t *a, fp_t *b) {
   size_t i;
   
-  for(i = 0; i < sizeof SEPTIC_COEFFICIENTS - 1; ++i) {
-    fp_mul(a, &SEPTIC_COEFFICIENTS[i], b);
-    fp_add(&SEPTIC_COEFFICIENTS[i + 1], b, b);
+  *b = SEPTIC_COEFFICIENTS[0];
+  for(i = 1; i < sizeof SEPTIC_COEFFICIENTS; ++i) {
+    fp_mul(a, b, b);
+    fp_add(&SEPTIC_COEFFICIENTS[i], b, b);
   }
 }
 
