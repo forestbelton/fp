@@ -90,7 +90,7 @@ void fp_sub(fp_t *a, fp_t *b, fp_t *c) {
   /* Normalize the difference. */
   for(i = 0; i < (int)(sizeof out.data * 2); ++i) {
     if(out.data[0] >> 4) break;
-    fp_lshift(&out, 3);
+    fp_lshift(&out, 1);
   }
 
   *c = out;
