@@ -102,8 +102,8 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
    * will then be normalized. Make sure shifting does not continue on
    * forever due to a sum of zero. */
   else {
-    for(i = 0; i < (int)(sizeof a->data * 2); ++i) {
-      if(a->data[0] >> 4) break;
+    for(i = 0; i < (int)(sizeof out.data * 2); ++i) {
+      if(out.data[0] >> 4) break;
       fp_lshift(&out, 1);
     }
   }
