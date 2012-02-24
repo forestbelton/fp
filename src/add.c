@@ -48,16 +48,16 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
     
     /* c <- a + (-b) = a - b    */
     case 1:
-      b->sgn = 0;
-      fp_sub(a, b, c);
-      b->sgn = 1;
+      out = *b;
+      out.sgn = 0;
+      fp_sub(a, &out, c);
     return;
     
     /* c <- (-a) + b = b - a    */
     case 2:
-      a->sgn = 0;
-      fp_sub(b, a, c);
-      a->sgn = 1;
+      out = *a;
+      out.sgn = 0;
+      fp_sub(b, &out, c);
     return;
     
     /* c <- (-a) + (-b) = -(a + b) */
