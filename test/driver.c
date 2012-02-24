@@ -22,16 +22,18 @@
 #include <stdio.h>
 
 int main() {
-  fp_t a, b, c;
-  char tmp[200];
+  fp_t a, b;
+  size_t i;
+
+  fp_fromstr(&a, "38.23");
+  fp_fromstr(&b, "29.004");
   
-  fp_fromstr(&a, "1.23");
-  fp_fromstr(&b, "0.004");
+  fp_sub(&a, &b, &a);
   
-  fp_mul(&b, &a, &c);
-  
-  fp_tostr(&c, tmp);
-  printf("%s\n", tmp);
-  
+  printf("{%u, 0x%02x, {", a.sgn, a.expt);
+  for(i = 0; i < sizeof a.data - 1; ++i)
+    printf("0x%02x, ", a.data[i]);
+  printf("0x%02x}}\n", a.data[sizeof a.data - 1]);
+
   return 0;
 }

@@ -22,9 +22,6 @@
 #include "fp.h"
 #include "util.h"
 
-/* Prototype for the internal subtraction routine. */
-void fp_isub(fp_t *a, fp_t *b, fp_t *c, uint8_t offset[2]);
-
 /*
  * This function takes two normalized floating-point values and adds them
  * together to produce a normalized result and store it in the parameter c.
@@ -39,16 +36,9 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
   uint8_t offset[2];
   fp_t    out;
   
-  /* Use the larger of the two exponents and compute the distance between
-   * it and a->expt, b->expt. These offsets are used to simulate the adjustment
-   * of a and b to have the same exponent without performing the actual
-   * operation. This means that a and b don't have to be clobbered, duplicated
-   * on the stack, etc. and generally saves having to iterate through the
-   * fractional component of their data. */
-  out.expt  = a->expt > b->expt ? a->expt : b->expt;
-  offset[0] = out.expt - a->expt;
-  offset[1] = out.expt - b->expt;
-  
+  /* Make the C compiler shut up. */
+  out.sgn = 0;
+
   /* Determine sign of result. */
   switch((a->sgn << 1) | b->sgn) {
     /* c <- a + b = a + b    */
@@ -58,17 +48,16 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
     
     /* c <- a + (-b) = a - b    */
     case 1:
-      fp_isub(a, b, &out, offset);
-      *c = out;
+      b->sgn = 0;
+      fp_sub(a, b, c);
+      b->sgn = 1;
     return;
     
     /* c <- (-a) + b = b - a    */
     case 2:
-      tmp       = offset[0];
-      offset[0] = offset[1];
-      offset[1] = tmp;
-      fp_isub(b, a, &out, offset);
-      *c = out;
+      b->sgn = 0;
+      fp_sub(b, a, c);
+      b->sgn = 1;
     return;
     
     /* c <- (-a) + (-b) = -(a + b) */
@@ -76,7 +65,17 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
       out.sgn = 1;
     break;  
   }
-  
+
+  /* Use the larger of the two exponents and compute the distance between
+   * it and a->expt, b->expt. These offsets are used to simulate the adjustment
+   * of a and b to have the same exponent without performing the actual
+   * operation. This means that a and b don't have to be clobbered, duplicated
+   * on the stack, etc. and generally saves having to iterate through the
+   * fractional component of their data. */
+  out.expt  = a->expt > b->expt ? a->expt : b->expt;
+  offset[0] = out.expt - a->expt;
+  offset[1] = out.expt - b->expt;
+
   carry = 0;
   for(i = (sizeof a->data * 2) - 1; i >= 0; --i) {
     /* Compute digit sum using the simulated shifting. */

@@ -21,30 +21,22 @@
 #include "fp.h"
 #include "util.h"
 
-/* This is just a wrapper over fp_add for ease-of-use. */
 void fp_sub(fp_t *a, fp_t *b, fp_t *c) {
-  b->sgn ^= 1;
-  fp_add(a, b, c);
-  b->sgn ^= 1;
-}
+  int     i, j;
+  uint8_t minuend[sizeof a->data * 2];
+  uint8_t offset[2];
+  fp_t    out;
+  
+  /* Compute displacement offsets. */
+  out.expt  = a->expt > b->expt ? a->expt : b->expt;
+  offset[0] = out.expt - a->expt;
+  offset[1] = out.expt - b->expt;
 
-/* This is an INTERNAL function that subtracts two numbers. It ignores the sign
- * of both operands and subtracts the unsigned value of the second from the
- * unsigned value of the first. Actual subtraction should be performed by
- * calling fp_add with an inverted sign. */
-void fp_isub(fp_t *a, fp_t *b, fp_t *c, uint8_t offset[2]) {
-  int i, borrow;
-  int digit[2];
-  
-  /* NOTE: The exponent has already been set in fp_add, as well as
-   *       each operand's distance relative to it computed. This is received as
-   *       the parameter "offset". */
-  
-  /* TODO: Implement a fp_cmp function and abstract this area of code out. */
-  
-  /* Compare the two operands. */
-  c->sgn = 0;
+  /* If b > a, flip the sign. */
+  out.sgn = 0;
   for(i = 0; i < (int)(sizeof a->data * 2); ++i) {
+    uint8_t digit[2];
+
     digit[0] = fp_getdigit(a, i - offset[0]);
     digit[1] = fp_getdigit(b, i - offset[1]);
     
@@ -54,47 +46,49 @@ void fp_isub(fp_t *a, fp_t *b, fp_t *c, uint8_t offset[2]) {
     
     /* The second operand is larger than the first. */
     else if(digit[0] < digit[1]) {
-      c->sgn = 1;
+      out.sgn = 1;
       break;
     }
   }
   
-  /* If the second operand is larger, then swap the operands to cleanly ensure
-   * that there is no final borrow. Make sure to also swap the associated
-   * offsets. */
-  if(c->sgn) {
-    uint8_t  off;
-    fp_t    *f;
-    
-    f = b;
-    b = a;
-    a = f;
-    
+  /* Switch the operands to ensure a > b. This just relies on the fact that
+   * a - b = -(b - a). */
+  if(out.sgn == 1) {
+    fp_t   *t;
+    uint8_t off;
+
+    t = a;
+    a = b;
+    b = t;
+
     off       = offset[0];
     offset[0] = offset[1];
     offset[1] = off;
   }
+
+  /* Compute extended minuend. */
+  for(i = sizeof a->data * 2 - 1; i >= 0; --i)
+    minuend[i] = fp_getdigit(a, i - offset[0]);
   
-  /* Perform a digit-by-digit subtraction. */
-  borrow = 0;
-  for(i = (sizeof a->data * 2) - 1; i >= 0; --i) {
-    /* Compute the digits, subtracting current borrow. */
-    digit[0] = fp_getdigit(a, i - offset[0]) - borrow;
-    digit[1] = fp_getdigit(b, i - offset[1]);
-    
-    /* If we need to borrow, do so. */
-    if(digit[0] < digit[1]) {
-      ++borrow;
-      digit[0] += 10;
+  /* Adjust for borrow. */
+  for(i = sizeof a->data * 2 - 1; i >= 0; --i) {
+    j = i - 1;
+    while(minuend[i] < fp_getdigit(b, i - offset[1])) {
+      if(minuend[j] > 0) {
+        minuend[j]     -= 1;
+	minuend[j + 1] += 10;
+      }
+      else
+      	j = j - 1;
     }
-    
-    /* Otherwise, reset borrow. */
-    else
-      borrow = 0;
-    
-    /* Perform subtraction and set digit. */
-    fp_setdigit(c, i, digit[0] - digit[1]);
   }
+
+  /* Perform computation. */
+  for(i = sizeof a->data * 2 - 1; i >= 0; --i)
+    fp_setdigit(&out, i, minuend[i] - fp_getdigit(b, i - offset[1]));
   
-  /* Since a > b, borrow should always be zero here. */
+  /* TODO: Adjust to make sure the leading digit is nonzero. */
+
+  *c = out;
 }
+
