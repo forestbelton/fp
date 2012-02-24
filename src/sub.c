@@ -87,7 +87,11 @@ void fp_sub(fp_t *a, fp_t *b, fp_t *c) {
   for(i = sizeof a->data * 2 - 1; i >= 0; --i)
     fp_setdigit(&out, i, minuend[i] - fp_getdigit(b, i - offset[1]));
   
-  /* TODO: Adjust to make sure the leading digit is nonzero. */
+  /* Normalize the difference. */
+  for(i = 0; i < (int)(sizeof out.data * 2); ++i) {
+    if(out.data[0] >> 4) break;
+    fp_lshift(&out, 3);
+  }
 
   *c = out;
 }
