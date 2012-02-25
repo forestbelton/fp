@@ -18,35 +18,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef FP_H_
-#define FP_H_
-
-#include <stdint.h>
+#include "fp.h"
 #include <stddef.h>
 
-/* Must be an even number. */
-#define FP_DIGITS 14
-
-/* Floating-point format. */
-typedef struct {
-  uint8_t sgn;
-  uint8_t expt;
-  uint8_t data[FP_DIGITS / 2];
-} fp_t;
-
-/* Floating-point API. */
-void fp_add(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A + B  */
-void fp_sub(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A - B  */
-void fp_mul(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A * B  */
-void fp_div(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A / B  */
-void fp_abs(fp_t *a, fp_t *b);                           /* B <- ||A||  */
-void fp_poly(fp_t *coefs, size_t n, fp_t *a, fp_t *out); /* OUT <- P(A) */
-
-void fp_fromstr(fp_t *out, const char *value);
-void fp_tostr  (fp_t *f, char *out);
-
-/* Available constants. */
-extern fp_t FP_ZERO, FP_ONE, FP_TWO, FP_PI, FP_E;
-
-#endif
-
+/* Evaluates the following polynomial at x = a:
+ * 
+ * coefs[0] x^(n-1) + coefs[1] + x^(n-1) + ... + coefs[n-1]
+ * 
+ * using the Horner scheme. This changes the order of evaluation to:
+ * 
+ * coefs[n-1] + (coefs[n-2] + (... + coefs[n-1] * x) * x) * x
+ * 
+ * which greatly reduces the number of required multiplies. */
+void fp_poly(fp_t coefs[], size_t n, fp_t *a, fp_t *out) {
+  size_t i;
+  fp_t tmp;
+  
+  tmp = coefs[0];
+  for(i = 1; i < n; ++i) {
+    fp_mul(a, &tmp, &tmp);
+    fp_add(&coefs[i], &tmp, &tmp);
+  }
+  
+  *out = tmp;
+}
