@@ -6,6 +6,7 @@ I don't really have anything to say quite yet about this project. fp is an API t
 Supported operations
 --------------------
 * Basic arithmetic (+, -, *, /)
+* Polynomial evaluation using the Horner scheme
 * Conversion to/from strings (WIP)
 
 Planned features
