@@ -72,15 +72,15 @@ void fp_div(fp_t *a, fp_t *b, fp_t *c) {
   a1.expt = a->expt - b->expt + 0x80 - 1;
   b1.expt = 0x7f;
   
-  /* Compute guess. */
+  /* Compute guess. out ~= 1 / b*/
   fp_recip(&b1, &out);
   
   /* Do a few steps of Newton-Raphson iteration. */
-  for(i = 0; i < 10; ++i) {
+  for(i = 0; i < 5; ++i) {
+    /* out = out * (2 - b * out); */
     fp_mul(&b1, &out, &tmp);
-    tmp.sgn = 1;
-    fp_add(&FP_TWO, &tmp, &out);
-    fp_mul(&out, &tmp, &out);
+    fp_sub(&FP_TWO, &tmp, &tmp);
+    fp_mul(&tmp, &out, &out);
   }
   
   /* Compute quotient based on (hopefully) good reciprocal approximation. */
