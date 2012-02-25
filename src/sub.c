@@ -27,6 +27,8 @@ void fp_sub(fp_t *a, fp_t *b, fp_t *c) {
   uint8_t offset[2];
   fp_t    out;
   
+  /* TODO: Examine sign. */
+  
   /* Compute displacement offsets. */
   out.expt  = a->expt > b->expt ? a->expt : b->expt;
   offset[0] = out.expt - a->expt;
@@ -72,11 +74,14 @@ void fp_sub(fp_t *a, fp_t *b, fp_t *c) {
   
   /* Adjust for borrow. */
   for(i = sizeof a->data * 2 - 1; i >= 0; --i) {
+    uint8_t subtrahend = fp_getdigit(b, i - offset[1]);
     j = i - 1;
-    while(minuend[i] < fp_getdigit(b, i - offset[1])) {
+    
+    while(minuend[i] < subtrahend) {
       if(minuend[j] > 0) {
         minuend[j]     -= 1;
-	minuend[j + 1] += 10;
+        minuend[j + 1] += 10;
+        j = j + 1;
       }
       else
       	j = j - 1;
