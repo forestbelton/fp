@@ -22,24 +22,11 @@
 #include "util.h"
 #include <stddef.h>
 
-/* This is an INTERNAL function which computes an approximation to the
- * reciprocal. This function will likely change over time, though it need not
- * be exposed elsewhere. A description of the current implementation is as
- * follows:
- * 
- * A 7th-order polynomial approximation to 1/x on [0.1, 1]. The following
+/* A 7th-order polynomial approximation to 1/x on [0.1, 1]. The following
  * function was used:
  * 
  * 25.1957 - 251.291 x + 1303.97 x^2 - 3887 x^3 + 6885.23 x^4 - 7145.18 x^5 +
- * 4005.3 x^6 - 935.265 x^7
- * 
- * Using the Horner scheme, we convert the polynomial to the following form:
- *
- * 25.1957 + (-251.291 + (1303.97 + (-3887 + (6885.23 + (-7145.18 + (4005.3 -
- * 935.265 * x) * x) * x) * x) * x) * x) * x
- *
- * Which only uses 7 multiplies and 7 additions. The naive approach would use
- * 36 multiplies and 7 additions. */
+ * 4005.3 x^6 - 935.265 x^7 */
 
 static fp_t SEPTIC_COEFFICIENTS[8] = {
   {1, 0x82, {0x93, 0x52, 0x65, 0x00, 0x00, 0x00, 0x00}},
@@ -52,16 +39,6 @@ static fp_t SEPTIC_COEFFICIENTS[8] = {
   {0, 0x81, {0x25, 0x19, 0x57, 0x00, 0x00, 0x00, 0x00}}
 };
 
-static void fp_recip(fp_t *a, fp_t *b) {
-  size_t i;
-  
-  *b = SEPTIC_COEFFICIENTS[0];
-  for(i = 1; i < sizeof SEPTIC_COEFFICIENTS / sizeof SEPTIC_COEFFICIENTS[0]; ++i) {
-    fp_mul(a, b, b);
-    fp_add(&SEPTIC_COEFFICIENTS[i], b, b);
-  }
-}
-
 void fp_div(fp_t *a, fp_t *b, fp_t *c) {
   fp_t a1 = *a;
   fp_t b1 = *b;
@@ -73,7 +50,7 @@ void fp_div(fp_t *a, fp_t *b, fp_t *c) {
   b1.expt = 0x7f;
   
   /* Compute guess. out ~= 1 / b*/
-  fp_recip(&b1, &out);
+  fp_poly(SEPTIC_COEFFICIENTS, sizeof SEPTIC_COEFFICIENTS / sizeof SEPTIC_COEFFICIENTS[0], &b1, &out);
   
   /* Do a few steps of Newton-Raphson iteration. */
   for(i = 0; i < 5; ++i) {
