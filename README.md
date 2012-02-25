@@ -5,8 +5,8 @@ I don't really have anything to say quite yet about this project. fp is an API t
 
 Supported operations
 --------------------
-* Addition and subtraction
-* Multiplication and division (WIP)
+* Basic arithmetic (+, -, *, /)
+* Conversion to/from strings (WIP)
 
 Planned features
 ----------------
