@@ -34,14 +34,18 @@ typedef struct {
   uint8_t data[FP_DIGITS / 2];
 } fp_t;
 
-/* Floating-point API. */
-void fp_add(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A + B  */
-void fp_sub(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A - B  */
-void fp_mul(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A * B  */
-void fp_div(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A / B  */
-void fp_abs(fp_t *a, fp_t *b);                           /* B <- ||A||  */
-void fp_poly(fp_t *coefs, size_t n, fp_t *a, fp_t *out); /* OUT <- P(A) */
+/* Arithmetic API. */
+void fp_add(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A + B    */
+void fp_sub(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A - B    */
+void fp_mul(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A * B    */
+void fp_div(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A / B    */
+void fp_abs(fp_t *a, fp_t *b);                           /* B <- ||A||    */
+void fp_poly(fp_t *coefs, size_t n, fp_t *a, fp_t *out); /* OUT <- P(A)   */
 
+/* Auxiliary function API. */
+void fp_log(fp_t *x, fp_t *out);                         /* OUT <- LOG(X) */
+
+/* Utility function API. */
 void fp_fromstr(fp_t *out, const char *value);
 void fp_tostr  (fp_t *f, char *out);
 
