@@ -20,6 +20,34 @@
  */
 #include "fp.h"
 #include "util.h"
+#include <string.h>
+
+void fp_fromint(fp_t *out, int n) {
+  unsigned i = 0, j = 0;
+  unsigned digits[FP_DIGITS * 2];
+  
+  /* Initialize out variable. */
+  out->sgn  = 0;
+  out->expt = 0x7f;
+  memset(&out->data[0], 0, sizeof out->data);
+  
+  /* Compute sign. */
+  if(n < 0) {
+    ++out->sgn;
+    n = -n;
+  }
+  
+  /* Record digits (in reverse order). */
+  while(n) {
+    ++out->expt;
+    digits[i++] = n % 10;
+    n /= 10;
+  }
+  
+  /* Set them in the float in the proper order. */
+  while(i--)
+    fp_setdigit(out, j++, digits[i]);
+}
 
 void fp_fromstr(fp_t *out, const char *str) {
   unsigned i, done = 0;

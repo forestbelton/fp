@@ -46,6 +46,7 @@ void fp_poly(fp_t *coefs, size_t n, fp_t *a, fp_t *out); /* OUT <- P(A)   */
 void fp_log(fp_t *x, fp_t *out);                         /* OUT <- LOG(X) */
 
 /* Utility function API. */
+void fp_fromint(fp_t *out, int n);
 void fp_fromstr(fp_t *out, const char *value);
 void fp_tostr  (fp_t *f, char *out);
 
