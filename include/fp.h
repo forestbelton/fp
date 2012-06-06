@@ -51,7 +51,7 @@ void fp_fromstr(fp_t *out, const char *value);
 void fp_tostr  (fp_t *f, char *out);
 
 /* Available constants. */
-extern fp_t FP_ZERO, FP_ONE, FP_TWO, FP_PI, FP_E;
+extern fp_t FP_ZERO, FP_ONE, FP_TWO, FP_PI, FP_E, FP_LOG10;
 
 #endif
 
