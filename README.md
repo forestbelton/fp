@@ -7,7 +7,7 @@ Supported operations
 --------------------
 * Basic arithmetic (+, -, *, /)
 * Polynomial evaluation using the Horner scheme
-* Conversion to/from strings (WIP)
+* Conversion operations to/from various data types (WIP)
 
 Planned features
 ----------------
