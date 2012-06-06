@@ -23,7 +23,7 @@
 
 /* Evaluates the following polynomial at x = a:
  * 
- * coefs[0] x^(n-1) + coefs[1] + x^(n-1) + ... + coefs[n-1]
+ * coefs[0] x^(n-1) + coefs[1] x^(n-1) + ... + coefs[n-1]
  * 
  * using the Horner scheme. This changes the order of evaluation to:
  * 
