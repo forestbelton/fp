@@ -46,19 +46,22 @@ static fp_t QUOT_DENOMINATOR[5] = {
  *    log(y) + n log(10).
  */
 void fp_log(fp_t *x, fp_t *out) {
-  fp_t num, div, tmp;
+  fp_t num, div, tmp, p10;
   
   /* Extract the fractional part of x. */
   tmp      = *x;
-  tmp.expt = 0x80;
+  tmp.expt = 0x7f;
   
   /* Compute the quotient approximation of frac(x) */
-  fp_poly(QUOT_NUMERATOR, sizeof QUOT_NUMERATOR / sizeof QUOT_NUMERATOR[0], &tmp, &num);
+  fp_poly(QUOT_NUMERATOR,   sizeof QUOT_NUMERATOR   / sizeof QUOT_NUMERATOR[0],   &tmp, &num);
   fp_poly(QUOT_DENOMINATOR, sizeof QUOT_DENOMINATOR / sizeof QUOT_DENOMINATOR[0], &tmp, &div);
   
   /* Compute the quotient. */
   fp_div(&num, &div, &tmp);
   
-  /* TODO: Rest. */
+  fp_fromint(&p10, x->expt - 0x7f);
+  fp_mul(&p10, &FP_LOG10, &p10);
+  
+  fp_add(&tmp, &p10, out);
 }
 

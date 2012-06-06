@@ -25,10 +25,8 @@ int main() {
   fp_t a, b;
   size_t i;
   
-  fp_fromstr(&a, "3.0");
-  fp_fromstr(&b, "5.0");
-  
-  fp_div(&a, &b, &a);
+  fp_fromstr(&a, "301.2");
+  fp_log(&a, &a);
   
   printf("{%u, 0x%02x, {", a.sgn, a.expt);
   for(i = 0; i < sizeof a.data - 1; ++i)
