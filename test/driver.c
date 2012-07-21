@@ -22,7 +22,7 @@
 #include <stdio.h>
 
 int main() {
-  fp_t a, b;
+  fp_t a;
   size_t i;
   
   fp_fromstr(&a, "301.2");
