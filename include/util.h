@@ -41,12 +41,12 @@ static inline void fp_setdigit(fp_t *f, uint8_t n, uint8_t value) {
  * adjusting the exponent. If the exponent were not adjusted, this operation
  * would be equivalent to dividing by 10^n. */
 static inline void fp_rshift(fp_t *f, uint8_t n) {
-  f->data >>= n;
+  f->data >>= n * 4;
   f->expt  += n;
 }
 
 static inline void fp_lshift(fp_t *f, uint8_t n) {
-  f->data <<= n;
+  f->data <<= n * 4;
   f->data  &= ~(0xffULL << 56);
   f->expt  -= n;
 }
