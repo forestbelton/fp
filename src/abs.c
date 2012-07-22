@@ -22,8 +22,8 @@
 #include "fp.h"
 
 /* Computes the absolute value of a and stores the result in b. */
-void fp_abs(fp_t *a, fp_t *b) {
-  *b     = *a;
-  b->sgn = 0;
+fp_t fp_abs(fp_t a) {
+  a.sgn = 0;
+  return a;
 }
 

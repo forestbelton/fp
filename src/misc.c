@@ -22,47 +22,51 @@
 #include "util.h"
 #include <string.h>
 
-void fp_fromint(fp_t *out, int n) {
+fp_t fp_fromint(int n) {
+  fp_t     out;
   unsigned i = 0, j = 0;
   unsigned digits[FP_DIGITS * 2];
   
   /* Initialize out variable. */
-  out->sgn  = 0;
-  out->expt = 0x7f;
-  memset(&out->data[0], 0, sizeof out->data);
+  out.sgn  = 0;
+  out.expt = 0x7f;
+  memset(&out.data[0], 0, sizeof out.data);
   
   /* Compute sign. */
   if(n < 0) {
-    ++out->sgn;
+    ++out.sgn;
     n = -n;
   }
   
   /* Record digits (in reverse order). */
   while(n) {
-    ++out->expt;
+    ++out.expt;
     digits[i++] = n % 10;
     n /= 10;
   }
   
   /* Set them in the float in the proper order. */
   while(i--)
-    fp_setdigit(out, j++, digits[i]);
+    fp_setdigit(&out, j++, digits[i]);
+  
+  return out;
 }
 
-void fp_fromstr(fp_t *out, const char *str) {
+fp_t fp_fromstr(const char *str) {
+  fp_t     out;
   unsigned i, done = 0;
   
   /* Parse sign, if it exists. */
   switch(*str) {
-    case '-': ++str; out->sgn = 1; break;
+    case '-': ++str; out.sgn = 1; break;
     case '+': ++str;
-    default:  out->sgn = 0;
+    default:  out.sgn = 0;
   }
   
   /* Initialize output to zero. */
-  out->expt = 0x80 - 1;
-  for(i = 0; i < sizeof out->data; ++i)
-    out->data[i] = 0;
+  out.expt = 0x80 - 1;
+  for(i = 0; i < sizeof out.data; ++i)
+    out.data[i] = 0;
   
   /* Ignore leading zeros. If there are no leading nonzero digits, start
    * reducing the exponent until one is found. */
@@ -70,7 +74,7 @@ void fp_fromstr(fp_t *out, const char *str) {
   if(*str == '.') {
     ++str;
     while(*str == '0') {
-      --out->expt;
+      --out.expt;
       ++str;
     }
     done = 1;
@@ -90,18 +94,20 @@ void fp_fromstr(fp_t *out, const char *str) {
     /* Increase the exponent if the decimal point still has not yet been
      * found. */
     else if(!done)
-      ++out->expt;
+      ++out.expt;
     
     /* The decimal point has been encountered and the floating-point value has
      * been filled with digits. Any further iteration would be needless. */
-    if(done && i == sizeof out->data * 2)
+    if(done && i == sizeof out.data * 2)
       break;
     
     /* Add the digit if there is any room left and continue iteration. */
-    if(i < sizeof out->data * 2)
-      fp_setdigit(out, i++, *str - '0');
+    if(i < sizeof out.data * 2)
+      fp_setdigit(&out, i++, *str - '0');
     ++str;
   }
+
+  return out;
 }
 
 /* TODO: Comment and clean up (and fix). */

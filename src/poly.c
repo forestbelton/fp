@@ -30,15 +30,15 @@
  * coefs[n-1] + (coefs[n-2] + (... + coefs[n-1] * x) * x) * x
  * 
  * which greatly reduces the number of required multiplies. */
-void fp_poly(fp_t coefs[], size_t n, fp_t *a, fp_t *out) {
+fp_t fp_poly(fp_t coefs[], size_t n, fp_t a) {
   size_t i;
-  fp_t tmp;
+  fp_t out;
   
-  tmp = coefs[0];
+  out = coefs[0];
   for(i = 1; i < n; ++i) {
-    fp_mul(a, &tmp, &tmp);
-    fp_add(&coefs[i], &tmp, &tmp);
+    out = fp_mul(a, out);
+    out = fp_add(coefs[i], out);
   }
   
-  *out = tmp;
+  return out;
 }

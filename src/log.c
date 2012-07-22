@@ -46,23 +46,24 @@ static fp_t QUOT_DENOMINATOR[6] = {
  * 4) Since log(ab) = log(a) + log(b), compute final result by:
  *    log(y) + n log(10).
  */
-void fp_log(fp_t *x, fp_t *out) {
+fp_t fp_log(fp_t x) {
   fp_t num, div, tmp, p10;
   
   /* Extract the fractional part of x. */
-  tmp      = *x;
+  tmp      = x;
   tmp.expt = 0x7f;
   
   /* Compute the quotient approximation of frac(x) */
-  fp_poly(QUOT_NUMERATOR,   sizeof QUOT_NUMERATOR   / sizeof QUOT_NUMERATOR[0],   &tmp, &num);
-  fp_poly(QUOT_DENOMINATOR, sizeof QUOT_DENOMINATOR / sizeof QUOT_DENOMINATOR[0], &tmp, &div);
+  num = fp_poly(QUOT_NUMERATOR, sizeof QUOT_NUMERATOR / sizeof QUOT_NUMERATOR[0], tmp);
+  div = fp_poly(QUOT_DENOMINATOR, sizeof QUOT_DENOMINATOR / sizeof QUOT_DENOMINATOR[0], tmp);
   
   /* Compute the quotient. */
-  fp_div(&num, &div, &tmp);
+  tmp = fp_div(num, div);
   
-  fp_fromint(&p10, x->expt - 0x7f);
-  fp_mul(&p10, &FP_LOG10, &p10);
+  p10 = fp_fromint(x.expt - 0x7f);
+  p10 = fp_mul(p10, FP_LOG10);
   
-  fp_add(&tmp, &p10, out);
+  tmp = fp_add(tmp, p10);
+  return tmp;
 }
 

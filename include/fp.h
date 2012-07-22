@@ -35,19 +35,19 @@ typedef struct {
 } fp_t;
 
 /* Arithmetic API. */
-void fp_add(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A + B    */
-void fp_sub(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A - B    */
-void fp_mul(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A * B    */
-void fp_div(fp_t *a, fp_t *b, fp_t *c);                  /* C <- A / B    */
-void fp_abs(fp_t *a, fp_t *b);                           /* B <- ||A||    */
-void fp_poly(fp_t *coefs, size_t n, fp_t *a, fp_t *out); /* OUT <- P(A)   */
+fp_t fp_add (fp_t a, fp_t b);                 /* OUT <- A + B  */
+fp_t fp_sub (fp_t a, fp_t b);                 /* OUT <- A - B  */
+fp_t fp_mul (fp_t a, fp_t b);                 /* OUT <- A * B  */
+fp_t fp_div (fp_t a, fp_t b);                 /* OUT <- A / B  */
+fp_t fp_abs (fp_t a);                         /* OUT <- ||A||  */
+fp_t fp_poly(fp_t coefs[], size_t n, fp_t a); /* OUT <- P(A)   */
 
 /* Auxiliary function API. */
-void fp_log(fp_t *x, fp_t *out);                         /* OUT <- LOG(X) */
+fp_t fp_log(fp_t x);                          /* OUT <- LOG(X) */
 
 /* Utility function API. */
-void fp_fromint(fp_t *out, int n);
-void fp_fromstr(fp_t *out, const char *value);
+fp_t fp_fromint(int n);
+fp_t fp_fromstr(const char *value);
 void fp_tostr  (fp_t *f, char *out);
 
 /* Available constants. */

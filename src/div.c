@@ -40,28 +40,26 @@ static fp_t SEPTIC_COEFFICIENTS[8] = {
   %FP(27.6372)
 };
 
-void fp_div(fp_t *a, fp_t *b, fp_t *c) {
-  fp_t a1 = *a;
-  fp_t b1 = *b;
+fp_t fp_div(fp_t a, fp_t b) {
   fp_t tmp, out;
   size_t i;
   
   /* Scale quotient. */
-  a1.expt = a->expt - b->expt + 0x80 - 1;
-  b1.expt = 0x7f;
+  a.expt = a.expt - b.expt + 0x80 - 1;
+  b.expt = 0x7f;
   
   /* Compute guess. out ~= 1 / b*/
-  fp_poly(SEPTIC_COEFFICIENTS, sizeof SEPTIC_COEFFICIENTS / sizeof SEPTIC_COEFFICIENTS[0], &b1, &out);
+  out = fp_poly(SEPTIC_COEFFICIENTS, sizeof SEPTIC_COEFFICIENTS / sizeof SEPTIC_COEFFICIENTS[0], b);
   
   /* Do a few steps of Newton-Raphson iteration. */
   for(i = 0; i < 5; ++i) {
     /* out = out * (2 - b * out); */
-    fp_mul(&b1, &out, &tmp);
-    fp_sub(&FP_TWO, &tmp, &tmp);
-    fp_mul(&tmp, &out, &out);
+    tmp = fp_mul(b, out);
+    tmp = fp_sub(FP_TWO, tmp);
+    out = fp_mul(tmp, out);
   }
   
   /* Compute quotient based on (hopefully) good reciprocal approximation. */
-  fp_mul(&out, &a1, &out);
-  *c = out;
+  out = fp_mul(out, a);
+  return out;
 }

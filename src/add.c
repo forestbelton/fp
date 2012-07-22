@@ -30,7 +30,7 @@
  * NOTE: Eventually this function will be extended to return a result
  *       indicating the success of this function to include overflow
  *       notification, etc. */
-void fp_add(fp_t *a, fp_t *b, fp_t *c) {
+fp_t fp_add(fp_t a, fp_t b) {
   int     i;
   uint8_t tmp, carry;
   uint8_t offset[2];
@@ -40,7 +40,7 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
   out.sgn = 0;
 
   /* Determine sign of result. */
-  switch((a->sgn << 1) | b->sgn) {
+  switch((a.sgn << 1) | b.sgn) {
     /* c <- a + b = a + b    */
     case 0:
       out.sgn = 0;
@@ -48,17 +48,15 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
     
     /* c <- a + (-b) = a - b    */
     case 1:
-      out = *b;
+      out = b;
       out.sgn = 0;
-      fp_sub(a, &out, c);
-    return;
+    return fp_sub(a, out);
     
     /* c <- (-a) + b = b - a    */
     case 2:
-      out = *a;
+      out = a;
       out.sgn = 0;
-      fp_sub(b, &out, c);
-    return;
+    return fp_sub(b, out);
     
     /* c <- (-a) + (-b) = -(a + b) */
     case 3:
@@ -67,19 +65,19 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
   }
 
   /* Use the larger of the two exponents and compute the distance between
-   * it and a->expt, b->expt. These offsets are used to simulate the adjustment
+   * it and a.expt, b.expt. These offsets are used to simulate the adjustment
    * of a and b to have the same exponent without performing the actual
    * operation. This means that a and b don't have to be clobbered, duplicated
    * on the stack, etc. and generally saves having to iterate through the
    * fractional component of their data. */
-  out.expt  = a->expt > b->expt ? a->expt : b->expt;
-  offset[0] = out.expt - a->expt;
-  offset[1] = out.expt - b->expt;
+  out.expt  = a.expt > b.expt ? a.expt : b.expt;
+  offset[0] = out.expt - a.expt;
+  offset[1] = out.expt - b.expt;
 
   carry = 0;
-  for(i = (sizeof a->data * 2) - 1; i >= 0; --i) {
+  for(i = (sizeof a.data * 2) - 1; i >= 0; --i) {
     /* Compute digit sum using the simulated shifting. */
-    tmp = fp_getdigit(a, i - offset[0]) + fp_getdigit(b, i - offset[1]) + carry;
+    tmp = fp_getdigit(&a, i - offset[0]) + fp_getdigit(&b, i - offset[1]) + carry;
     
     /* Compute new carry and optionally adjust the sum digit. */
     carry = tmp > 9;
@@ -108,6 +106,6 @@ void fp_add(fp_t *a, fp_t *b, fp_t *c) {
     }
   }
   
-  /* Update c with the result. */
-  *c = out;
+  return out;
 }
+

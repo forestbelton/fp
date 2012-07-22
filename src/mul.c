@@ -21,15 +21,16 @@
 #include "fp.h"
 #include "util.h"
 
-void fp_mul(fp_t *a, fp_t *b, fp_t *c) {
+fp_t fp_mul(fp_t a, fp_t b) {
   int i, j, p;
+  fp_t    out;
   uint8_t prod[FP_DIGITS * 2] = {0};
   
   /* compute intermediary product */
-  for(i = sizeof a->data * 2 - 1; i >= 0; --i) {
-    for(j = sizeof a->data * 2 - 1; j >= 0; --j) {
+  for(i = sizeof a.data * 2 - 1; i >= 0; --i) {
+    for(j = sizeof a.data * 2 - 1; j >= 0; --j) {
       /* compute digit product */
-      p = fp_getdigit(a, i) * fp_getdigit(b, j);
+      p = fp_getdigit(&a, i) * fp_getdigit(&b, j);
       
       /* skip if the product is zero */
       if(!p)
@@ -50,13 +51,16 @@ void fp_mul(fp_t *a, fp_t *b, fp_t *c) {
   }
   
   /* compute sign */
-  c->sgn = a->sgn ^ b->sgn;
+  out.sgn = a.sgn ^ b.sgn;
   
   /* compute exponent */
   i = prod[0] == 0;
-  c->expt = a->expt + b->expt - 0x80 + !i;
+  out.expt = a.expt + b.expt - 0x80 + !i;
   
   /* copy shifted fractional part */
-  for(j = 0; j < (int)(sizeof a->data * 2); ++j)
-    fp_setdigit(c, j, prod[i++]);
+  for(j = 0; j < (int)(sizeof a.data * 2); ++j)
+    fp_setdigit(&out, j, prod[i++]);
+
+  return out;
 }
+

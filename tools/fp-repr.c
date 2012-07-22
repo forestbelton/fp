@@ -34,13 +34,11 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
   
-  if(strcmp(argv[1], "int") == 0) {
-    int n = strtol(argv[2], NULL, 0);
-    fp_fromint(&f, n);
-  }
+  if(strcmp(argv[1], "int") == 0)
+    f = fp_fromint(strtol(argv[2], NULL, 0));
   
   else if(strcmp(argv[1], "float") == 0)
-    fp_fromstr(&f, argv[2]);
+    f = fp_fromstr(argv[2]);
   
   else {
     fprintf(stderr, "error: invalid type %s\n", argv[2]);
