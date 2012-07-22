@@ -24,14 +24,11 @@
 #include <stdint.h>
 #include <stddef.h>
 
-/* Must be an even number. */
-#define FP_DIGITS 14
-
 /* Floating-point format. */
 typedef struct {
-  uint8_t sgn;
-  uint8_t expt;
-  uint8_t data[FP_DIGITS / 2];
+  uint8_t  sgn;
+  uint8_t  expt;
+  uint64_t data;
 } fp_t;
 
 /* Arithmetic API. */
