@@ -24,7 +24,7 @@
 /* Extracts a single digit at the index n. If the index is
  * out of bounds, return 0. */
 static inline uint8_t fp_getdigit(fp_t *f, int n) {
-  if(n < 0 || n > (sizeof f->data - 1) * 2)
+  if(n < 0 || n > (int)(sizeof f->data - 1) * 2)
     return 0;
   else
     return (f->data >> (4 * n)) & 0x0f;
