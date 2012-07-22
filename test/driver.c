@@ -19,19 +19,16 @@
  * THE SOFTWARE.
  */
 #include "fp.h"
+#include <inttypes.h>
 #include <stdio.h>
 
 int main() {
   fp_t a;
-  size_t i;
   
   a = fp_fromstr("301.2");
   a = fp_log(a);
   
-  printf("{%u, 0x%02x, {", a.sgn, a.expt);
-  for(i = 0; i < sizeof a.data - 1; ++i)
-    printf("0x%02x, ", a.data[i]);
-  printf("0x%02x}}\n", a.data[sizeof a.data - 1]);
+  printf("{%u, 0x%02x, %" PRIu64 "}\n", a.sgn, a.expt, a.data);
 
   return 0;
 }
