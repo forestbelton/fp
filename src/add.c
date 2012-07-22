@@ -18,7 +18,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#include <inttypes.h>
 #include <stdint.h>
+#include <stdio.h>
 #include "fp.h"
 #include "util.h"
 
@@ -31,14 +33,8 @@
  *       indicating the success of this function to include overflow
  *       notification, etc. */
 fp_t fp_add(fp_t a, fp_t b) {
-  int     i;
-  uint8_t tmp, carry;
-  uint8_t offset[2];
-  fp_t    out;
+  fp_t out;
   
-  /* Make the C compiler shut up. */
-  out.sgn = 0;
-
   /* Determine sign of result. */
   switch((a.sgn << 1) | b.sgn) {
     /* c <- a + b = a + b    */
@@ -48,64 +44,36 @@ fp_t fp_add(fp_t a, fp_t b) {
     
     /* c <- a + (-b) = a - b    */
     case 1:
-      out = b;
-      out.sgn = 0;
-    return fp_sub(a, out);
+      b.sgn = 0;
+      return fp_sub(a, b);
+    break;
     
     /* c <- (-a) + b = b - a    */
     case 2:
-      out = a;
-      out.sgn = 0;
-    return fp_sub(b, out);
-    
+      a.sgn = 0;
+      return fp_sub(b, a);
+    break;
+
     /* c <- (-a) + (-b) = -(a + b) */
     case 3:
       out.sgn = 1;
     break;  
   }
 
-  /* Use the larger of the two exponents and compute the distance between
-   * it and a.expt, b.expt. These offsets are used to simulate the adjustment
-   * of a and b to have the same exponent without performing the actual
-   * operation. This means that a and b don't have to be clobbered, duplicated
-   * on the stack, etc. and generally saves having to iterate through the
-   * fractional component of their data. */
-  out.expt  = a.expt > b.expt ? a.expt : b.expt;
-  offset[0] = out.expt - a.expt;
-  offset[1] = out.expt - b.expt;
-
-  carry = 0;
-  for(i = (sizeof a.data * 2) - 1; i >= 0; --i) {
-    /* Compute digit sum using the simulated shifting. */
-    tmp = fp_getdigit(&a, i - offset[0]) + fp_getdigit(&b, i - offset[1]) + carry;
-    
-    /* Compute new carry and optionally adjust the sum digit. */
-    carry = tmp > 9;
-    if(carry)
-      tmp -= 10;
-    
-    /* Update out with result. */
-    fp_setdigit(&out, i, tmp);
-  }
+  /* Align (and denormalize) a and b. */
+  out.expt = a.expt > b.expt ? a.expt : b.expt;
+  fp_rshift(&a, out.expt - a.expt);
+  fp_rshift(&b, out.expt - b.expt);
   
-  /* If we still have carry, then this means that we are done performing
-   * normalization after done shifting once. Then set the topmost digit to
-   * 1, the carry value. */
-  if(carry) {
+  /* Perform addition and adjust for carry. */
+  out.data = a.data + b.data;
+  if(out.data & (1ULL << 56))
     fp_rshift(&out, 1);
-    fp_setdigit(&out, 0, 1);
-  }
-  
-  /* Shift to the left until we have a leading nonzero digit. The value
-   * will then be normalized. Make sure shifting does not continue on
-   * forever due to a sum of zero. */
-  else {
-    for(i = 0; i < (int)(sizeof out.data * 2); ++i) {
-      if(out.data[0] >> 4) break;
-      fp_lshift(&out, 1);
-    }
-  }
-  
+
+  /* Normalize sum. */
+  while(!(out.data == 0 || fp_getdigit(&out, 0) == 0))
+    fp_lshift(&out, 1);
+
   return out;
 }
 
