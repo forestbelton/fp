@@ -30,7 +30,7 @@ fp_t fp_fromint(int n) {
   /* Initialize out variable. */
   out.sgn  = 0;
   out.expt = 0x7f;
-  memset(&out.data[0], 0, sizeof out.data);
+  out.data = 0;
   
   /* Compute sign. */
   if(n < 0) {
@@ -65,8 +65,7 @@ fp_t fp_fromstr(const char *str) {
   
   /* Initialize output to zero. */
   out.expt = 0x80 - 1;
-  for(i = 0; i < sizeof out.data; ++i)
-    out.data[i] = 0;
+  out.data = 0;
   
   /* Ignore leading zeros. If there are no leading nonzero digits, start
    * reducing the exponent until one is found. */
