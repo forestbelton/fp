@@ -24,6 +24,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define FP_DIGITS 14
+
 /* Floating-point format. */
 typedef struct {
   uint8_t  sgn;
