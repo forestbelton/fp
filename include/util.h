@@ -24,16 +24,17 @@
 /* Extracts a single digit at the index n. If the index is
  * out of bounds, return 0. */
 static inline uint8_t fp_getdigit(fp_t *f, int n) {
-  if(n < 0 || n > (int)(sizeof f->data - 1) * 2)
+  if(n < 0 || n > FP_DIGITS)
     return 0;
   else
-    return (f->data >> (4 * n)) & 0x0f;
+    return (f->data >> (4 * (FP_DIGITS - n))) & 0x0f;
 }
 
 /* Sets a single digit at the index n. */
 static inline void fp_setdigit(fp_t *f, uint8_t n, uint8_t value) {
-  f->data &= ~(0xf << (4 * n));
-  f->data |= (value & 0xf) << (4 * n);
+  n = FP_DIGITS - n - 1;
+  f->data &= ~(0xfULL << (4 * n));
+  f->data |= (value & 0xfULL) << (4 * n);
 }
 
 /* Shifts the floating point value n digits to the right, automatically
