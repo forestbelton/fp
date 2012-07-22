@@ -25,7 +25,7 @@
 /*
  * This function takes two normalized floating-point values and adds them
  * together to produce a normalized result and store it in the parameter c.
- * If this "addition" is actually a subtraction, it internally calls fp_isub.
+ * If this "addition" is actually a subtraction, it internally calls fp_sub.
  * 
  * NOTE: Eventually this function will be extended to return a result
  *       indicating the success of this function to include overflow
