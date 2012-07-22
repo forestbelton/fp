@@ -19,13 +19,13 @@
  * THE SOFTWARE.
  */
 #include "fp.h"
+#include <inttypes.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 int main(int argc, char *argv[]) {
   fp_t   f;
-  size_t i;
   
   if(argc != 3) {
     fprintf(stderr, "usage: fp-repr [type] [num]\n");
@@ -46,10 +46,7 @@ int main(int argc, char *argv[]) {
   }
 
   /* Print representation. */
-  printf("{%u, 0x%02x, {", f.sgn, f.expt);
-  for(i = 0; i < sizeof f.data - 1; ++i)
-    printf("0x%02x, ", f.data[i]);
-  printf("0x%02x}}\n", f.data[sizeof f.data - 1]);
+  printf("{%u, 0x%02x, %" PRIu64 "}\n", f.sgn, f.expt, f.data);
   
   return 0;
 }
