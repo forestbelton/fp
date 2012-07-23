@@ -33,6 +33,7 @@
  *       indicating the success of this function to include overflow
  *       notification, etc. */
 fp_t fp_add(fp_t a, fp_t b) {
+  int  i, carry;
   fp_t out;
   
   /* Determine sign of result. */
@@ -67,11 +68,28 @@ fp_t fp_add(fp_t a, fp_t b) {
   
   /* Perform addition and adjust for carry. */
   out.data = a.data + b.data;
-  if(out.data & (1ULL << 56))
+
+  carry = 0;
+  for(i = FP_DIGITS - 1; i >= 0; --i) {
+    uint8_t digit = fp_getdigit(&out, i) + carry;
+    
+    if(digit > 9) {
+      digit -= 10;
+      carry  = 1;
+    }
+    else
+      carry = 0;
+
+    fp_setdigit(&out, i, digit);
+  }
+
+  if(carry) {
     fp_rshift(&out, 1);
+    fp_setdigit(&out, 0, 1);
+  }
 
   /* Normalize sum. */
-  while(!(out.data == 0 || fp_getdigit(&out, 0) == 0))
+  while(!(out.data == 0 || fp_getdigit(&out, 0) != 0))
     fp_lshift(&out, 1);
 
   return out;
