@@ -24,10 +24,10 @@
 /* Extracts a single digit at the index n. If the index is
  * out of bounds, return 0. */
 static inline uint8_t fp_getdigit(fp_t *f, int n) {
-  if(n < 0 || n > FP_DIGITS)
+  if(n < 0 || n > FP_DIGITS - 1)
     return 0;
   else
-    return (f->data >> (4 * (FP_DIGITS - n))) & 0x0f;
+    return (f->data >> (4 * (FP_DIGITS - n - 1))) & 0x0f;
 }
 
 /* Sets a single digit at the index n. */
