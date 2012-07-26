@@ -24,14 +24,18 @@
 
 int main() {
   fp_t a, b, c;
+  char buf[20];
   
   a = fp_fromstr("301.2");
   b = fp_fromstr("902.7");
   c = fp_add(a, b);
 
-  printf("a: {%u, 0x%02x, 0x%08x%08xULL}\n", a.sgn, a.expt, (uint32_t)(a.data >> 32), (uint32_t)a.data);
-  printf("b: {%u, 0x%02x, 0x%08x%08xULL}\n", b.sgn, b.expt, (uint32_t)(b.data >> 32), (uint32_t)b.data);
-  printf("a + b: {%u, 0x%02x, 0x%08x%08xULL}\n", c.sgn, c.expt, (uint32_t)(c.data >> 32), (uint32_t)c.data);
+  fp_tostr(a, buf);
+  printf("%s + ", buf);
+  fp_tostr(b, buf);
+  printf("%s = ", buf);
+  fp_tostr(c, buf);
+  printf("%s\n", buf);
 
   return 0;
 }
