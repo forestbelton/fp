@@ -1,5 +1,5 @@
 CFILES := src/add.c src/sub.c src/misc.c src/mul.c src/div.c src/abs.c \
-	src/constants.c src/poly.c src/log.c
+	src/constants.c src/poly.c src/log.c src/sqrt.c
 OFILES := $(CFILES:.c=.o)
 
 CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 -Wno-unused-parameter
@@ -14,6 +14,8 @@ check : $(OFILES)
 	gcc test/mul.o $(OFILES) -o test/mul
 	tools/fpp test/print.c | gcc -xc - $(CFLAGS) -c -o test/print.o
 	gcc test/print.o $(OFILES) -o test/print
+	tools/fpp test/sqrt.c | gcc -xc - $(CFLAGS) -c -o test/sqrt.o
+	gcc test/sqrt.o $(OFILES) -lm -o test/sqrt
 
 tools : fp-repr
 

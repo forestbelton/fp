@@ -18,40 +18,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef FP_H_
-#define FP_H_
+#include <math.h>
+#undef FP_ZERO
+#include <stdio.h>
+#include <stdlib.h>
 
-#include <stdint.h>
-#include <stddef.h>
+#include "fp.h"
 
-#define FP_DIGITS 14
+float mkfloat(void) {
+  float f = (float)rand() / RAND_MAX;
+  return f * 1000;
+}
 
-/* Floating-point format. */
-typedef struct {
-  uint8_t  sgn;
-  uint8_t  expt;
-  uint64_t data;
-} fp_t;
+void do_test(void) {
+  fp_t  x;
+  float f = mkfloat();
+  char  buf[20];
 
-/* Arithmetic API. */
-fp_t fp_add (fp_t a, fp_t b);                 /* OUT <- A + B   */
-fp_t fp_sub (fp_t a, fp_t b);                 /* OUT <- A - B   */
-fp_t fp_mul (fp_t a, fp_t b);                 /* OUT <- A * B   */
-fp_t fp_div (fp_t a, fp_t b);                 /* OUT <- A / B   */
-fp_t fp_abs (fp_t a);                         /* OUT <- ||A||   */
-fp_t fp_poly(fp_t coefs[], size_t n, fp_t a); /* OUT <- P(A)    */
+  sprintf(buf, "%f", f);
+  x = fp_fromstr(buf);
 
-/* Auxiliary function API. */
-fp_t fp_log (fp_t x);                         /* OUT <- LOG(X)  */
-fp_t fp_sqrt(fp_t x);                         /* OUT <- SQRT(X) */
+  printf("float: sqrt(%f) = %f\n", f, sqrt(f));
 
-/* Utility function API. */
-fp_t fp_fromint(int n);
-fp_t fp_fromstr(const char *value);
-void fp_tostr  (fp_t f, char *out);
+  fp_tostr(x, buf);
+  printf("fp_t:  sqrt(%s) = ", buf);
+  x = fp_sqrt(x);
+  fp_tostr(x, buf);
+  printf("%s\n", buf);
+}
 
-/* Available constants. */
-extern fp_t FP_ONE, FP_TWO, FP_PI, FP_E, FP_LOG10;
+int main() {
+  int i;
 
-#endif
+  for(i = 0; i < 10; ++i)
+    do_test();
 
+  return 0;
+}

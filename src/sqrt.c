@@ -18,40 +18,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef FP_H_
-#define FP_H_
+#include "fp.h"
 
-#include <stdint.h>
-#include <stddef.h>
+fp_t fp_sqrt(fp_t x) {
+  /* TODO: Improve initial guess. */
+  fp_t guess = fp_div(x, FP_TWO);
+  fp_t new   = guess;
 
-#define FP_DIGITS 14
+  do {
+    guess = new;
+    new = fp_add(new, fp_div(x, new));
+    new = fp_div(new, FP_TWO);
+  } while(new.data != guess.data);
 
-/* Floating-point format. */
-typedef struct {
-  uint8_t  sgn;
-  uint8_t  expt;
-  uint64_t data;
-} fp_t;
-
-/* Arithmetic API. */
-fp_t fp_add (fp_t a, fp_t b);                 /* OUT <- A + B   */
-fp_t fp_sub (fp_t a, fp_t b);                 /* OUT <- A - B   */
-fp_t fp_mul (fp_t a, fp_t b);                 /* OUT <- A * B   */
-fp_t fp_div (fp_t a, fp_t b);                 /* OUT <- A / B   */
-fp_t fp_abs (fp_t a);                         /* OUT <- ||A||   */
-fp_t fp_poly(fp_t coefs[], size_t n, fp_t a); /* OUT <- P(A)    */
-
-/* Auxiliary function API. */
-fp_t fp_log (fp_t x);                         /* OUT <- LOG(X)  */
-fp_t fp_sqrt(fp_t x);                         /* OUT <- SQRT(X) */
-
-/* Utility function API. */
-fp_t fp_fromint(int n);
-fp_t fp_fromstr(const char *value);
-void fp_tostr  (fp_t f, char *out);
-
-/* Available constants. */
-extern fp_t FP_ONE, FP_TWO, FP_PI, FP_E, FP_LOG10;
-
-#endif
-
+  return guess;
+}
