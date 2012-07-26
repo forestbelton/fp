@@ -21,21 +21,45 @@
 #include "fp.h"
 #include <inttypes.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int main() {
-  fp_t a, b, c;
-  char buf[20];
+float mkfloat(void) {
+  float f = (float)rand() / RAND_MAX;
+  return f * 1000;
+}
+
+void do_test(void) {
+  float fa, fb;
+  fp_t  a, b, c;
+  char  buf[20];
+
+  fa = mkfloat();
+  fb = mkfloat();
+
+  sprintf(buf, "%f", fa);
+  a = fp_fromstr(buf);
+
+  sprintf(buf, "%f", fb);
+  b = fp_fromstr(buf);
   
-  a = fp_fromstr("301.2");
-  b = fp_fromstr("902.7");
   c = fp_add(a, b);
 
+  printf("float: %f + %f = %f\n", fa, fb, fa + fb);
+
+  printf("fp_t: ");
   fp_tostr(a, buf);
   printf("%s + ", buf);
   fp_tostr(b, buf);
   printf("%s = ", buf);
   fp_tostr(c, buf);
   printf("%s\n", buf);
+}
+
+int main() {
+  int i;
+
+  for(i = 0; i < 10; ++i)
+    do_test();
 
   return 0;
 }
