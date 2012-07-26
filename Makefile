@@ -26,4 +26,4 @@ fp-repr : src/misc.c
 	tools/fpp $< | gcc -xc - $(CFLAGS) -c -o $@
 
 clean :
-	rm -rf $(OFILES) test/mul test/mul.o test/add test/add.o test/print test/print.o test/driver test/driver.exe tools/fp-repr tools/fp-repr.exe
+	rm -rf $(OFILES) test/sqrt test/sqrt.o test/mul test/mul.o test/add test/add.o test/print test/print.o test/driver test/driver.exe tools/fp-repr tools/fp-repr.exe
