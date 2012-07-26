@@ -47,7 +47,7 @@ fp_t fp_log(fp_t x);                          /* OUT <- LOG(X) */
 /* Utility function API. */
 fp_t fp_fromint(int n);
 fp_t fp_fromstr(const char *value);
-void fp_tostr  (fp_t *f, char *out);
+void fp_tostr  (fp_t f, char *out);
 
 /* Available constants. */
 extern fp_t FP_ZERO, FP_ONE, FP_TWO, FP_PI, FP_E, FP_LOG10;

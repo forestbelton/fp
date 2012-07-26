@@ -20,6 +20,7 @@
  */
 #include "fp.h"
 #include "util.h"
+#include <stdio.h>
 #include <string.h>
 
 fp_t fp_fromint(int n) {
@@ -64,13 +65,14 @@ fp_t fp_fromstr(const char *str) {
   }
   
   /* Initialize output to zero. */
-  out.expt = 0x80 - 1;
+  out.expt = 0x80;
   out.data = 0;
   
   /* Ignore leading zeros. If there are no leading nonzero digits, start
    * reducing the exponent until one is found. */
   while(*str == '0') ++str;
   if(*str == '.') {
+    --out.expt;
     ++str;
     while(*str == '0') {
       --out.expt;
@@ -110,34 +112,68 @@ fp_t fp_fromstr(const char *str) {
 }
 
 /* TODO: Comment and clean up (and fix). */
-void fp_tostr(fp_t *f, char *out) {
-  unsigned i;
-  int expt;
-  char expc[5] = {0};
+void fp_tostr(fp_t f, char *out) {
+  int      expt = f.expt - 0x80;
+  uint64_t tmp  = f.data;
   
-  if(f->sgn)
+  if(f.sgn)
     *out++ = '-';
+
+  /* reasonably small, 10^-14 < |f| < 1 */
+  if(expt < 0 && expt > -14) {
+
+    *out++ = '0';
+    *out++ = '.';
+    
+    while(expt < -1) {
+      *out++ = '0';
+      ++expt;
+    }
+
+    while(tmp) {
+      *out++ = '0' + ((tmp >> 52) & 0xf);
+      tmp <<= 4;
+      tmp &= ~(0xffULL << 56);
+    }
+  }
   
-  *out++ = fp_getdigit(f, 0) + '0';
-  *out++ = '.';
+  /* reasonably large, 1 < |f| < 10^14 */
+  else if(expt >= 0 && expt < 14) {
+    while(tmp && expt > -1) {
+      *out++ = '0' + ((tmp >> 52) & 0xf);
+      tmp <<= 4;
+      tmp &= ~(0xffULL << 56);
+      --expt;
+    }
+
+    *out++ = '.';
+    if(!tmp)
+      *out++ = '0';
+    else while(tmp) {
+      *out++ = '0' + ((tmp >> 52) & 0xf);
+      tmp <<= 4;
+      tmp &= ~(0xffULL << 56);
+    }
+  }
+
+  /* crazy big/small!! */
+  else {
+    /* first digit */
+    *out++ = '0' + ((tmp >> 52) & 0xf);
+    tmp <<= 4;
+    tmp &= ~(0xffULL << 56);
+
+    *out++ = '.';
+    /* the rest */
+    while(tmp) {
+      *out++ = '0' + ((tmp >> 52) & 0xf);
+      tmp <<= 4;
+      tmp &= ~(0xffULL << 56);
+    }
+
+    sprintf(out, "e%d", expt);
+    return;
+  }
   
-  for(i = 1; i < sizeof f->data * 2; ++i)
-    *out++ = fp_getdigit(f, i) + '0';
-  
-  *out++ = 'e';
-  expt = f->expt - 0x80;
-  
-  if(expt < 0)
-    *out++ = '-';
-  
-  i = sizeof expc - 1;
-  do {
-    expc[i--] = expt % 10 + '0';
-    expt /= 10;
-  } while(expt != 0);
-  
-  while(i < sizeof expc)
-    *out++ = expc[++i];
-  
-  *out = 0;
+  *out++ = 0;
 }
