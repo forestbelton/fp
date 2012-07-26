@@ -7,9 +7,9 @@ Supported operations
 --------------------
 * Basic arithmetic (+, -, *, /)
 * Polynomial evaluation using the Horner scheme
-* Conversion operations to/from various data types (WIP)
+* Conversion operations to/from various data types
+* Exponential functions (exp, pow, log, sqrt) (WIP)
 
 Planned features
 ----------------
 * Basic trigonometric functions (sin, cos, tan)
-* Exponential functions (exp, pow, log, sqrt)
