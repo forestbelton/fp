@@ -65,7 +65,7 @@ fp_t fp_fromstr(const char *str) {
   }
   
   /* Initialize output to zero. */
-  out.expt = 0x80;
+  out.expt = 0x7f;
   out.data = 0;
   
   /* Ignore leading zeros. If there are no leading nonzero digits, start
