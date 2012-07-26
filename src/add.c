@@ -67,20 +67,20 @@ fp_t fp_add(fp_t a, fp_t b) {
   fp_rshift(&b, out.expt - b.expt);
   
   /* Perform addition and adjust for carry. */
-  out.data = a.data + b.data;
-
   carry = 0;
   for(i = FP_DIGITS - 1; i >= 0; --i) {
-    uint8_t digit = fp_getdigit(&out, i) + carry;
+    uint8_t da = fp_getdigit(&a, i);
+    uint8_t db = fp_getdigit(&b, i);
     
-    if(digit > 9) {
-      digit -= 10;
-      carry  = 1;
+    da += db + carry;
+    if(da > 9) {
+      da   -= 10;
+      carry = 1;
     }
     else
       carry = 0;
 
-    fp_setdigit(&out, i, digit);
+    fp_setdigit(&out, i, da);
   }
 
   if(carry) {
