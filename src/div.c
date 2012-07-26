@@ -41,8 +41,7 @@ static fp_t SEPTIC_COEFFICIENTS[8] = {
 };
 
 fp_t fp_div(fp_t a, fp_t b) {
-  fp_t tmp, out;
-  size_t i;
+  fp_t tmp, out, old;
   
   /* Scale quotient. */
   a.expt = a.expt - b.expt + 0x80 - 1;
@@ -52,12 +51,12 @@ fp_t fp_div(fp_t a, fp_t b) {
   out = fp_poly(SEPTIC_COEFFICIENTS, sizeof SEPTIC_COEFFICIENTS / sizeof SEPTIC_COEFFICIENTS[0], b);
   
   /* Do a few steps of Newton-Raphson iteration. */
-  for(i = 0; i < 5; ++i) {
-    /* out = out * (2 - b * out); */
+  do {
+    old = out;
     tmp = fp_mul(b, out);
     tmp = fp_sub(FP_TWO, tmp);
     out = fp_mul(tmp, out);
-  }
+  } while(out.data != old.data);
   
   /* Compute quotient based on (hopefully) good reciprocal approximation. */
   out = fp_mul(out, a);
