@@ -10,6 +10,8 @@ check : $(OFILES)
 	gcc $(CFLAGS) test/driver.c $(OFILES) -o test/driver
 	tools/fpp test/add.c | gcc -xc - $(CFLAGS) -c -o test/add.o
 	gcc test/add.o $(OFILES) -o test/add
+	tools/fpp test/mul.c | gcc -xc - $(CFLAGS) -c -o test/mul.o
+	gcc test/mul.o $(OFILES) -o test/mul
 	tools/fpp test/print.c | gcc -xc - $(CFLAGS) -c -o test/print.o
 	gcc test/print.o $(OFILES) -o test/print
 
@@ -22,4 +24,4 @@ fp-repr : src/misc.c
 	tools/fpp $< | gcc -xc - $(CFLAGS) -c -o $@
 
 clean :
-	rm -rf $(OFILES) test/driver test/driver.exe tools/fp-repr tools/fp-repr.exe
+	rm -rf $(OFILES) test/mul test/mul.o test/add test/add.o test/print test/print.o test/driver test/driver.exe tools/fp-repr tools/fp-repr.exe
