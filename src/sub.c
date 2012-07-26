@@ -23,7 +23,7 @@
 
 fp_t fp_sub(fp_t a, fp_t b) {
   int     i, j;
-  uint8_t minuend[sizeof a.data * 2];
+  uint8_t minuend[FP_DIGITS];
   uint8_t offset[2];
   fp_t    out;
   
@@ -36,7 +36,7 @@ fp_t fp_sub(fp_t a, fp_t b) {
 
   /* If b > a, flip the sign. */
   out.sgn = 0;
-  for(i = 0; i < (int)(sizeof a.data * 2); ++i) {
+  for(i = 0; i < FP_DIGITS; ++i) {
     uint8_t digit[2];
 
     digit[0] = fp_getdigit(&a, i - offset[0]);
@@ -69,11 +69,11 @@ fp_t fp_sub(fp_t a, fp_t b) {
   }
 
   /* Compute extended minuend. */
-  for(i = sizeof a.data * 2 - 1; i >= 0; --i)
+  for(i = FP_DIGITS - 1; i >= 0; --i)
     minuend[i] = fp_getdigit(&a, i - offset[0]);
   
   /* Adjust for borrow. */
-  for(i = sizeof a.data * 2 - 1; i >= 0; --i) {
+  for(i = FP_DIGITS - 1; i >= 0; --i) {
     uint8_t subtrahend = fp_getdigit(&b, i - offset[1]);
     j = i - 1;
     
@@ -89,11 +89,11 @@ fp_t fp_sub(fp_t a, fp_t b) {
   }
 
   /* Perform computation. */
-  for(i = sizeof a.data * 2 - 1; i >= 0; --i)
+  for(i = FP_DIGITS - 1; i >= 0; --i)
     fp_setdigit(&out, i, minuend[i] - fp_getdigit(&b, i - offset[1]));
   
   /* Normalize the difference. */
-  for(i = 0; i < (int)(sizeof out.data * 2); ++i) {
+  for(i = 0; i < FP_DIGITS; ++i) {
     if(fp_getdigit(&out, 0)) break;
     fp_lshift(&out, 1);
   }

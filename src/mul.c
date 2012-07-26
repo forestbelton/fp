@@ -27,8 +27,8 @@ fp_t fp_mul(fp_t a, fp_t b) {
   uint8_t prod[FP_DIGITS * 2] = {0};
   
   /* compute intermediary product */
-  for(i = sizeof a.data * 2 - 1; i >= 0; --i) {
-    for(j = sizeof a.data * 2 - 1; j >= 0; --j) {
+  for(i = FP_DIGITS - 1; i >= 0; --i) {
+    for(j = FP_DIGITS - 1; j >= 0; --j) {
       /* compute digit product */
       p = fp_getdigit(&a, i) * fp_getdigit(&b, j);
       
@@ -58,7 +58,7 @@ fp_t fp_mul(fp_t a, fp_t b) {
   out.expt = a.expt + b.expt - 0x80 + !i;
   
   /* copy shifted fractional part */
-  for(j = 0; j < (int)(sizeof a.data * 2); ++j)
+  for(j = 0; j < FP_DIGITS; ++j)
     fp_setdigit(&out, j, prod[i++]);
 
   return out;
