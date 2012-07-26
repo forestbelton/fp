@@ -24,11 +24,19 @@
 
 int main() {
   fp_t a;
+  char buf[20];
   
-  a = fp_fromstr("301.2");
-  a = fp_log(a);
-  
-  printf("{%u, 0x%02x, 0x%08x%08x}\n", a.sgn, a.expt, (uint32_t)(a.data >> 32), (uint32_t)a.data);
+  a = fp_fromstr("0.00012345607");
+  fp_tostr(a, buf);
+  printf("%s\n", buf);
+
+  a = fp_fromstr("123456070000000000000000.0");
+  fp_tostr(a, buf);
+  printf("%s\n", buf);
+
+  a = fp_fromstr("0.00000000000000012345607");
+  fp_tostr(a, buf);
+  printf("%s\n", buf);
 
   return 0;
 }

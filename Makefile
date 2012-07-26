@@ -8,6 +8,10 @@ CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 -Wno-unused-parameter
 
 check : $(OFILES)
 	gcc $(CFLAGS) test/driver.c $(OFILES) -o test/driver
+	tools/fpp test/add.c | gcc -xc - $(CFLAGS) -c -o test/add.o
+	gcc test/add.o $(OFILES) -o test/add
+	tools/fpp test/print.c | gcc -xc - $(CFLAGS) -c -o test/print.o
+	gcc test/print.o $(OFILES) -o test/print
 
 tools : fp-repr
 
