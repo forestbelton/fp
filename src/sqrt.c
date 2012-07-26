@@ -24,12 +24,17 @@ fp_t fp_sqrt(fp_t x) {
   /* TODO: Improve initial guess. */
   fp_t guess = fp_div(x, FP_TWO);
   fp_t new   = guess;
+  int n;
 
   do {
     guess = new;
     new = fp_add(new, fp_div(x, new));
     new = fp_div(new, FP_TWO);
-  } while(new.data != guess.data);
+    
+    n = new.data - guess.data;
+    if(n < 0)
+      n = -n;
+  } while(n > 5);
 
   return guess;
 }
