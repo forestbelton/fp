@@ -139,7 +139,7 @@ void fp_tostr(fp_t f, char *out) {
   
   /* reasonably large, 1 < |f| < 10^14 */
   else if(expt >= 0 && expt < 14) {
-    while(tmp && expt > -1) {
+    while(expt > -1) {
       *out++ = '0' + ((tmp >> 52) & 0xf);
       tmp <<= 4;
       tmp &= ~(0xffULL << 56);
