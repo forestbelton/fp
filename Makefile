@@ -1,5 +1,5 @@
 CFILES := src/add.c src/sub.c src/misc.c src/mul.c src/div.c src/abs.c \
-	src/constants.c src/poly.c src/log.c src/sqrt.c src/agm.c
+	src/constants.c src/poly.c src/log.c src/sqrt.c src/agm.c src/compare.c
 export CC     := gcc
 export OFILES := $(CFILES:.c=.o)
 export CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 -Wno-unused-parameter

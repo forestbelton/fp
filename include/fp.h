@@ -47,9 +47,13 @@ fp_t fp_sqrt(fp_t x);                         /* OUT <- SQRT(X) */
 fp_t fp_agm (fp_t x, fp_t y);                 /* OUT <- M(X, Y) */
 
 /* Utility function API. */
+int  fp_compare(fp_t x, fp_t y);
 fp_t fp_fromint(int n);
 fp_t fp_fromstr(const char *value);
 void fp_tostr  (fp_t f, char *out);
+
+#define fp_gt(x, y) (fp_compare((x), (y)) == 1)
+#define fp_lt(x, y) (fp_compare((x), (y)) = -1)
 
 /* Available constants. */
 extern fp_t FP_ONE, FP_TWO, FP_PI, FP_E, FP_LOG10;
