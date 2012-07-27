@@ -11,7 +11,7 @@ Associated tools
 
 Supported operations
 --------------------
-* Basic arithmetic (+, -, *, /)
+* Basic arithmetic (+, -, *, /) and comparison
 * Polynomial evaluation using the Horner scheme
 * Conversion operations to/from various data types
 * Arithmetic-geometric mean computation
