@@ -1,2 +1,7 @@
+fp-calc
+fp-calc.c
+fp-calc.h
+
 fp-repr
-fp-repr.exe
+
+*.exe
