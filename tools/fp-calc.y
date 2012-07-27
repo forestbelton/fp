@@ -18,6 +18,8 @@ int  yyerror(const char *s);
 %token OP_SUB
 %token OP_MUL
 %token OP_DIV
+%token OP_LPAREN
+%token OP_RPAREN
 
 %start root
 
@@ -27,14 +29,18 @@ root :
      | root expr '\n' { show($2); }
      ;
 
-expr : term
-     | term OP_ADD term { $$ = fp_add($1, $3); }
-     | term OP_SUB term { $$ = fp_sub($1, $3); }
+expr : factor
+     | factor OP_ADD factor { $$ = fp_add($1, $3); }
+     | factor OP_SUB factor { $$ = fp_sub($1, $3); }
      ;
 
+factor : term
+       | term OP_MUL term { $$ = fp_mul($1, $3); }
+       | term OP_DIV term { $$ = fp_div($1, $3); }
+       ;
+
 term : NUMBER
-     | NUMBER OP_MUL NUMBER { $$ = fp_mul($1, $3); }
-     | NUMBER OP_DIV NUMBER { $$ = fp_div($1, $3); }
+     | OP_LPAREN expr OP_RPAREN { $$ = $2; }
      ;
 
 %%
@@ -46,7 +52,7 @@ void show(fp_t f) {
   printf("=> %s\n> ", buf);
 }
 
-int yylex() {
+/*int yylex() {
   int c;
 
   do {
@@ -74,7 +80,7 @@ int yylex() {
   }
 
   return c == EOF ? 0 : c;
-}
+} */
 
 int yyerror(const char *s) {
   printf("%s\n", s);
