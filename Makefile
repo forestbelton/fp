@@ -6,6 +6,8 @@ CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 -Wno-unused-parameter
 
 .PHONY : clean
 
+all : check tools
+
 check : $(OFILES)
 	gcc $(CFLAGS) test/driver.c $(OFILES) -o test/driver
 	tools/fpp test/add.c | gcc -xc - $(CFLAGS) -c -o test/add.o
