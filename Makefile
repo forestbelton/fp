@@ -17,13 +17,17 @@ check : $(OFILES)
 	tools/fpp test/sqrt.c | gcc -xc - $(CFLAGS) -c -o test/sqrt.o
 	gcc test/sqrt.o $(OFILES) -lm -o test/sqrt
 
-tools : fp-repr
+tools : fp-repr fp-calc
 
 fp-repr : src/misc.c
 	gcc $(CFLAGS) tools/fp-repr.c src/misc.c -o tools/fp-repr
 
-%.o : %.c tools
+fp-calc : $(OFILES) tools/fp-calc.y
+	bison -y tools/fp-calc.y -o tools/fp-calc.c
+	gcc $(CFLAGS) $(OFILES) -DVERSION=\"$(shell git rev-parse HEAD)\" tools/fp-calc.c -o tools/fp-calc
+
+%.o : %.c fp-repr
 	tools/fpp $< | gcc -xc - $(CFLAGS) -c -o $@
 
 clean :
-	rm -rf $(OFILES) test/sqrt test/sqrt.o test/mul test/mul.o test/add test/add.o test/print test/print.o test/driver test/driver.exe tools/fp-repr tools/fp-repr.exe
+	rm -rf $(OFILES) test/sqrt test/sqrt.o test/mul test/mul.o test/add test/add.o test/print test/print.o test/driver test/driver.exe tools/fp-repr tools/fp-repr.exe tools/fp-calc tools/fp-calc.c
