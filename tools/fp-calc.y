@@ -21,6 +21,9 @@ int  yyerror(const char *s);
 %token OP_LPAREN
 %token OP_RPAREN
 
+%left OP_ADD OP_SUB
+%left OP_MUL OP_DIV
+
 %start root
 
 %%
@@ -30,13 +33,13 @@ root :
      ;
 
 expr : factor
-     | factor OP_ADD factor { $$ = fp_add($1, $3); }
-     | factor OP_SUB factor { $$ = fp_sub($1, $3); }
+     | expr OP_ADD factor { $$ = fp_add($1, $3); }
+     | expr OP_SUB factor { $$ = fp_sub($1, $3); }
      ;
 
 factor : term
-       | term OP_MUL term { $$ = fp_mul($1, $3); }
-       | term OP_DIV term { $$ = fp_div($1, $3); }
+       | factor OP_MUL term { $$ = fp_mul($1, $3); }
+       | factor OP_DIV term { $$ = fp_div($1, $3); }
        ;
 
 term : NUMBER
