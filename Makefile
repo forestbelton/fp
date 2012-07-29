@@ -1,6 +1,7 @@
-CFILES := src/add.c src/sub.c src/misc.c src/mul.c src/div.c src/abs.c \
+CFILES  := src/add.c src/sub.c src/misc.c src/mul.c src/div.c src/abs.c \
 	src/constants.c src/poly.c src/log.c src/sqrt.c src/agm.c src/compare.c
-OFILES := $(CFILES:.c=.o)
+OFILES  := $(CFILES:.c=.o)
+HEADERS := include/fp.h include/util.h
 
 export CC     := gcc
 export CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 \
@@ -23,7 +24,7 @@ tools/fp-repr:
 tools: libfp.a
 	cd tools; $(MAKE)
 
-%.o: %.c
+%.o: %.c $(HEADERS)
 	tools/fpp $< | gcc -xc - $(CFLAGS) -c -o $@
 
 clean:
