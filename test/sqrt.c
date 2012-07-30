@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "fp.h"
+#include "fp/fp.h"
 
 float mkfloat(void) {
   float f = (float)rand() / RAND_MAX;

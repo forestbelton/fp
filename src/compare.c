@@ -18,7 +18,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "fp.h"
+#include "fp/fp.h"
 
 int fp_compare(fp_t x, fp_t y) {
   if(x.sgn == 1) {

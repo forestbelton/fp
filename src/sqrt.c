@@ -18,7 +18,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "fp.h"
+#include "fp/fp.h"
 
 fp_t fp_sqrt(fp_t x) {
   /* TODO: Improve initial guess. */

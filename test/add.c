@@ -18,7 +18,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "fp.h"
+#include "fp/fp.h"
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
 %{
-#include "fp.h"
+#include "fp/fp.h"
 #define YYSTYPE fp_t
 
 #include "fp-calc.h"

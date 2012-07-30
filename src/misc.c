@@ -18,8 +18,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "fp.h"
-#include "util.h"
+#include "fp/fp.h"
+#include "fp/util.h"
 #include <stdio.h>
 #include <string.h>
 

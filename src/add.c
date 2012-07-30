@@ -21,8 +21,8 @@
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "fp.h"
-#include "util.h"
+#include "fp/fp.h"
+#include "fp/util.h"
 
 /*
  * This function takes two normalized floating-point values and adds them

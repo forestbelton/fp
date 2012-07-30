@@ -18,7 +18,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "fp.h"
+#include "fp/fp.h"
 
 fp_t FP_ZERO  = %FP(0.0);
 fp_t FP_ONE   = %FP(1.0);

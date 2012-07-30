@@ -7,9 +7,18 @@ export CC     := gcc
 export CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 \
   -Wno-unused-parameter
 
-.PHONY: clean check tools-pre tools all
+libdir     = /usr/lib
+includedir = /usr/include
+
+.PHONY: clean check tools-pre tools all install
 
 all: libfp.a check tools
+
+install: libfp.a
+	install -C -m 644 libfp.a $(libdir)/libfp.a
+	mkdir -p $(includedir)/fp
+	install -C -m 644 include/fp/fp.h $(includedir)/fp/fp.h
+	install -C -m 644 include/fp/util.h $(includedir)/fp/util.h
 
 libfp.a: tools/fp-repr $(OFILES)
 	ar rcs libfp.a $(OFILES)
@@ -24,7 +33,7 @@ tools/fp-repr:
 tools: libfp.a
 	cd tools; $(MAKE)
 
-%.o: %.c $(HEADERS)
+%.o: %.c
 	tools/fpp $< | gcc -xc - $(CFLAGS) -c -o $@
 
 clean:

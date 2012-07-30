@@ -1,7 +1,7 @@
 %{
 #include <ctype.h>
 #include <stdio.h>
-#include "fp.h"
+#include "fp/fp.h"
 
 #undef  YYSTYPE
 #define YYSTYPE fp_t

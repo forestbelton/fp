@@ -18,8 +18,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "fp.h"
-#include "util.h"
+#include "fp/fp.h"
+#include "fp/util.h"
 #include <stddef.h>
 
 /* A 7th-order polynomial approximation to 1/x on [0.1, 1]. The following

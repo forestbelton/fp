@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "fp.h"
+#include "fp/fp.h"
 
 int main() {
   fp_t a = fp_fromstr("193.052");
