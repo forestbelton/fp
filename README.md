@@ -1,9 +1,7 @@
 fp
 ==
 
-fp is a software-based floating point library. It supports up to 14 decimal digits of precision, and uses a packed BCD format internally. I chose this format to mimic the floating point representation used on the TI-8x line
-of calculators. This format takes up slightly more (2 bytes) space than an IEEE 754 binary64 type, but it has
-several advantages:
+fp is a software-based floating point library. It supports up to 14 decimal digits of precision, utilizing an internal format based on [packed BCD](http://en.wikipedia.org/wiki/Binary-coded_decimal#Packed_BCD). I chose this format to mimic the floating point representation used on the TI-8x line of calculators. This format takes up slightly more (2 bytes) space than an [IEEE 754 binary64](http://en.wikipedia.org/wiki/Double-precision_floating-point_format#IEEE_754_double-precision_binary_floating-point_format:_binary64) type, but it has several advantages:
 * It's easy to read. Since the data is in BCD, you can look at and manipulate the hexadecimal representation easily.
 * It accurately stores common values such as 0.1. This is not possible in base-2 floating point representations.
 
@@ -18,7 +16,7 @@ Supported operations
 * Basic arithmetic (+, -, *, /) and comparison
 * Polynomial evaluation using the Horner scheme
 * Conversion operations to/from various data types
-* Arithmetic-geometric mean computation
+* Arithmetic-geometric mean
 * Exponential functions (exp, pow, log, sqrt) (WIP)
 
 Planned features
