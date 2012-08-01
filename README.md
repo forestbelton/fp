@@ -14,7 +14,7 @@ Associated tools
 Supported operations
 --------------------
 * Basic arithmetic (+, -, *, /) and comparison
-* Polynomial evaluation using the Horner scheme
+* Polynomial evaluation using the [Horner scheme](http://en.wikipedia.org/wiki/Horner_scheme)
 * Conversion operations to/from various data types
 * Arithmetic-geometric mean
 * Exponential functions (exp, pow, log, sqrt) (WIP)
