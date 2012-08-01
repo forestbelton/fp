@@ -24,7 +24,7 @@ fp_t fp_agm(fp_t x, fp_t y) {
   fp_t a, g;
 
   while(x.data != y.data) {
-    a = fp_mul((fp_t)%FP(0.5), fp_add(x, y));
+    a = fp_mul(%FP(0.5), fp_add(x, y));
     g = fp_sqrt(fp_mul(x, y));
 
     x = a;

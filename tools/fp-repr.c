@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
   }
 
   /* Print representation. */
-  printf("{%u, 0x%02x, 0x%08x%08xULL}\n", f.sgn, f.expt, (uint32_t)(f.data >> 32), (uint32_t)f.data);
+  printf("(fp_t){%u, 0x%02x, 0x%08x%08xULL}\n", f.sgn, f.expt, (uint32_t)(f.data >> 32), (uint32_t)f.data);
   
   return 0;
 }
