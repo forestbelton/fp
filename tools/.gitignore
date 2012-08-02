@@ -5,4 +5,7 @@ fp-calc.lex.c
 
 fp-repr
 
+fpp
+fpp.lex.c
+
 *.exe
