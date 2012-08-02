@@ -20,7 +20,7 @@
  */
 #include "fp/fp.h"
 
-fp_t FP_PI    = %FP(3.1415926535897);
-fp_t FP_E     = %FP(2.7182818284590);
-fp_t FP_LOG10 = %FP(2.3025850929940);
+fp_t FP_PI    = %FP_CONST(3.1415926535897);
+fp_t FP_E     = %FP_CONST(2.7182818284590);
+fp_t FP_LOG10 = %FP_CONST(2.3025850929940);
 

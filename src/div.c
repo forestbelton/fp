@@ -30,14 +30,14 @@
  * 5921.74 x^6 - 1404.62 x^7 */
 
 static fp_t SEPTIC_COEFFICIENTS[8] = {
-  %FP(-1404.62),
-  %FP(5921.74),
-  %FP(-10332.7),
-  %FP(9658.57),
-  %FP(-5234.2),
-  %FP(1664.01),
-  %FP(-299.449),
-  %FP(27.6372)
+  %FP_CONST(-1404.62),
+  %FP_CONST(5921.74),
+  %FP_CONST(-10332.7),
+  %FP_CONST(9658.57),
+  %FP_CONST(-5234.2),
+  %FP_CONST(1664.01),
+  %FP_CONST(-299.449),
+  %FP_CONST(27.6372)
 };
 
 fp_t fp_div(fp_t a, fp_t b) {

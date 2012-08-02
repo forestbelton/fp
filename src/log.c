@@ -21,21 +21,21 @@
 #include "fp/fp.h"
 
 static fp_t QUOT_NUMERATOR[6] = {
-  %FP(137.0),
-  %FP(1625.0),
-  %FP(2000.0),
-  %FP(-2000.0),
-  %FP(-1625.0),
-  %FP(-137.0)
+  %FP_CONST(137.0),
+  %FP_CONST(1625.0),
+  %FP_CONST(2000.0),
+  %FP_CONST(-2000.0),
+  %FP_CONST(-1625.0),
+  %FP_CONST(-137.0)
 };
 
 static fp_t QUOT_DENOMINATOR[6] = {
-  %FP(30.0),
-  %FP(750.0),
-  %FP(3000.0),
-  %FP(3000.0),
-  %FP(750.0),
-  %FP(30.0)
+  %FP_CONST(30.0),
+  %FP_CONST(750.0),
+  %FP_CONST(3000.0),
+  %FP_CONST(3000.0),
+  %FP_CONST(750.0),
+  %FP_CONST(30.0)
 };
 
 /* Computes log(x) and stores the result in out.
