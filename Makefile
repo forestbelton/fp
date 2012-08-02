@@ -7,6 +7,7 @@ export CC     := gcc
 export CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 \
   -Wno-unused-parameter
 
+bindir     = /usr/bin
 libdir     = /usr/lib
 includedir = /usr/include
 
@@ -14,7 +15,8 @@ includedir = /usr/include
 
 all: libfp.a check tools
 
-install: libfp.a
+install: libfp.a tools/fpp
+	install -C -m 755 tools/fpp $(bindir)/fpp
 	install -C -m 644 libfp.a $(libdir)/libfp.a
 	mkdir -p $(includedir)/fp
 	install -C -m 644 include/fp/fp.h $(includedir)/fp/fp.h
