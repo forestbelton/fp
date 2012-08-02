@@ -54,7 +54,7 @@ fp_t fp_div(fp_t a, fp_t b) {
   do {
     old = out;
     tmp = fp_mul(b, out);
-    tmp = fp_sub(FP_TWO, tmp);
+    tmp = fp_sub(%FP(2.0), tmp);
     out = fp_mul(tmp, out);
   } while(out.data != old.data);
   
