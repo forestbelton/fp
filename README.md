@@ -33,6 +33,7 @@ The API is designed for ease of use over efficiency. A simple program to calcula
 
 fp_t fp_fac(unsigned int n) {
   fp_t x = %FP(1.0);
+  
   while(n > 0) {
     fp_t tmp = fp_fromint(n);
     x = fp_mul(tmp, x);
