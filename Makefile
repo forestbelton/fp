@@ -20,15 +20,15 @@ install: libfp.a
 	install -C -m 644 include/fp/fp.h $(includedir)/fp/fp.h
 	install -C -m 644 include/fp/util.h $(includedir)/fp/util.h
 
-libfp.a: tools/fp-repr $(OFILES)
+libfp.a: tools/fpp $(OFILES)
 	ar rcs libfp.a $(OFILES)
 
 check: libfp.a
 	cd test; $(MAKE)
 
 # Avoid circular dependency
-tools/fp-repr:
-	cd tools; $(MAKE) fp-repr
+tools/fpp:
+	cd tools; $(MAKE) fpp
 
 tools: libfp.a
 	cd tools; $(MAKE)
