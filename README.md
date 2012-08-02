@@ -7,7 +7,7 @@ fp is an ISO/IEC 9899:1999 ([C99](http://en.wikipedia.org/wiki/C99)) compliant s
 
 Associated tools
 ----------------
-* tools/fpp: Preprocessor used to turn %FP(...) or %FP_CONST(...) into an internal representation.
+* tools/fpp: Preprocessor used to turn `%FP(...)` or `%FP_CONST(...)` into an internal representation.
 * tools/fp-calc: Simple REPL used to provide interactive testing of library.
 
 Supported operations
@@ -54,7 +54,7 @@ int main() {
 }
 ```
 
-If %FP() or %FP_CONST() is used in your source code (such as in the above example), you can compile your programs by running them through the preprocessor like so:
+If `%FP(...)` or `%FP_CONST(...)` is used in your source code (such as in the above example), you can compile your programs by running them through the preprocessor like so:
 ```bash
 $ fpp fp_ex_fac.c | gcc -xc - -lfp -o fp_ex_fac
 ```
