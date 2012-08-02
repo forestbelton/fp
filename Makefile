@@ -4,7 +4,7 @@ OFILES  := $(CFILES:.c=.o)
 HEADERS := include/fp.h include/util.h
 
 export CC     := gcc
-export CFLAGS := -Iinclude -Wall -Wextra -pedantic -O2 \
+export CFLAGS := -Iinclude -Wall -Wextra -std=c99 -pedantic -O2 \
   -Wno-unused-parameter
 
 libdir     = /usr/lib
