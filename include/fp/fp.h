@@ -56,7 +56,7 @@ void fp_tostr  (fp_t f, char *out);
 #define fp_lt(x, y) (fp_compare((x), (y)) = -1)
 
 /* Available constants. */
-extern fp_t FP_ONE, FP_TWO, FP_PI, FP_E, FP_LOG10;
+extern fp_t FP_PI, FP_E, FP_LOG10;
 
 #endif
 

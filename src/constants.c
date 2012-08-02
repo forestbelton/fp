@@ -20,9 +20,6 @@
  */
 #include "fp/fp.h"
 
-fp_t FP_ZERO  = %FP(0.0);
-fp_t FP_ONE   = %FP(1.0);
-fp_t FP_TWO   = %FP(2.0);
 fp_t FP_PI    = %FP(3.1415926535897);
 fp_t FP_E     = %FP(2.7182818284590);
 fp_t FP_LOG10 = %FP(2.3025850929940);
