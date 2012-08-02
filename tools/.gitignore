@@ -3,8 +3,6 @@ fp-calc.c
 fp-calc.h
 fp-calc.lex.c
 
-fp-repr
-
 fpp
 fpp.lex.c
 
