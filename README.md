@@ -54,3 +54,8 @@ int main() {
   return 0;
 }
 ```
+
+If %FP() or %FP_CONST() is used in your source code (such as in the above example), you can compile your programs by running them through the preprocessor like so:
+```bash
+$ fpp fp_ex_fac.c | gcc -xc - -lfp -o fp_ex_fac
+```
