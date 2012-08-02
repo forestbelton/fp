@@ -7,7 +7,6 @@ fp is an ISO/IEC 9899:1999 ([C99](http://en.wikipedia.org/wiki/C99)) compliant s
 
 Associated tools
 ----------------
-* tools/fp-repr: Provides internal representation of floating-point constants.
 * tools/fpp: Preprocessor used to turn %FP(...) into an internal representation.
 * tools/fp-calc: Simple REPL used to provide interactive testing of library.
 
