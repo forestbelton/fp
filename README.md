@@ -22,3 +22,35 @@ Supported operations
 Planned features
 ----------------
 * Basic trigonometric functions (sin, cos, tan)
+
+Example usage
+-------------
+The API is designed for ease of use over efficiency. A simple program to calculate factorials is given below. More examples are to follow later!
+
+```c
+#include <fp/fp.h>
+#include <stdio.h>
+
+fp_t fp_fac(unsigned int n) {
+  fp_t x = %FP(1.0);
+  while(n > 0) {
+    fp_t tmp = fp_fromint(n);
+    x = fp_mul(tmp, x);
+    --n;
+  }
+  
+  return x;
+}
+
+int main() {
+  fp_t x;
+  char buf[20];
+  
+  x = fp_fac(10);
+  fp_tostr(x, buf);
+  
+  printf("10! = %s\n", buf);
+  
+  return 0;
+}
+```
