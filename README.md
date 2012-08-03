@@ -25,43 +25,15 @@ Planned features
 Build instructions
 ------------------
 The only programs required to build this program are [gcc](http://gcc.gnu.org/), [bison](http://www.gnu.org/software/bison/) and [flex](http://www.gnu.org/software/flex/). To build and install, all you have to do is
+
 ```bash
 $ make && sudo make install
 ```
 
 Example usage
 -------------
-The API is designed for ease of use over efficiency. A simple program to calculate factorials is given below. More examples are to follow later!
+The API is designed for ease of use over efficiency. You can find examples available in the `ex` directory. If `%FP(...)` or `%FP_CONST(...)` is used in your source code for floating-point constants, you need to run your code through the `fpp` preprocessor before compiling. A sample invocation is given below:
 
-```c
-#include <fp/fp.h>
-#include <stdio.h>
-
-fp_t fp_fac(unsigned int n) {
-  fp_t x = %FP(1.0);
-  
-  while(n > 0) {
-    x = fp_mul(fp_fromint(n), x);
-    --n;
-  }
-  
-  return x;
-}
-
-int main() {
-  fp_t x;
-  char buf[20];
-  
-  x = fp_fac(10);
-  fp_tostr(x, buf);
-  
-  printf("10! = %s\n", buf);
-  
-  return 0;
-}
-```
-
-If `%FP(...)` or `%FP_CONST(...)` is used in your source code (such as in the above example), you can compile your programs by running them through the preprocessor like so:
 ```bash
-$ fpp fp_ex_fac.c | gcc -xc - -lfp -o fp_ex_fac
+$ fpp mycode.c | gcc -xc - -o mycode
 ```
