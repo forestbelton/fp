@@ -22,6 +22,13 @@ Planned features
 ----------------
 * Basic trigonometric functions (sin, cos, tan)
 
+Build instructions
+------------------
+The only programs required to build this program are [gcc](http://gcc.gnu.org/), [bison](http://www.gnu.org/software/bison/) and [flex](http://www.gnu.org/software/flex/). To build and install, all you have to do is
+```bash
+$ make && sudo make install
+```
+
 Example usage
 -------------
 The API is designed for ease of use over efficiency. A simple program to calculate factorials is given below. More examples are to follow later!
