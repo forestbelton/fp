@@ -1,5 +1,5 @@
-CFLAGS  += -I../include -Wno-implicit-function-declaration -Wno-unused-function
-LDFLAGS += -L../ -lfp
+CFLAGS  += -Wno-implicit-function-declaration -Wno-unused-function
+LDFLAGS += -lfp
 
 .PHONY: all clean
 
