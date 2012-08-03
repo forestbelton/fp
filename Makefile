@@ -1,5 +1,5 @@
 export CC     := gcc
-export CFLAGS := -I$(shell pwd)/include -L$(shell pwd) -Wall -Wextra -std=c99 \
+export CFLAGS := -I$(shell pwd)/include -L$(shell pwd)/src -Wall -Wextra -std=c99 \
   -pedantic -O2 -Wno-unused-parameter
 export FPP    := $(shell pwd)/tools/fpp
 
