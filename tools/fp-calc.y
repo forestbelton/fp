@@ -75,36 +75,6 @@ void show(fp_t f) {
   printf("=> %s\n> ", buf);
 }
 
-/*int yylex() {
-  int c;
-
-  do {
-    c = getchar();
-  } while(c == ' ');
-  
-  switch(c) {
-    case '+': return OP_ADD;
-    case '-': return OP_SUB;
-    case '*': return OP_MUL;
-    case '/': return OP_DIV;
-
-    default:
-      if(isdigit(c)) {
-        float f;
-        char  buf[20];
-
-        ungetc(c, stdin);
-        (void)scanf("%f", &f);
-        snprintf(buf, sizeof buf - 1, "%f", f);
-        yylval = fp_fromstr(buf);
-
-        return NUMBER;
-      }
-  }
-
-  return c == EOF ? 0 : c;
-} */
-
 int yyerror(const char *s) {
   printf("%s\n", s);
   return 0;
