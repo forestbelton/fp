@@ -41,7 +41,7 @@ int main() {
     x = fp_fac(i);
     fp_tostr(x, buf);
     
-    printf("10! = %s\n", buf);
+    printf("%2d! = %s\n", i, buf);
   }
   
   return 0;
