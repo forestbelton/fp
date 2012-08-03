@@ -13,7 +13,7 @@ includedir = /usr/include
 
 .PHONY: clean check tools all install
 
-all: libfp.a check tools
+all: libfp.a tools
 
 install: libfp.a tools/fpp
 	install -C -m 755 tools/fpp $(bindir)/fpp
@@ -24,9 +24,6 @@ install: libfp.a tools/fpp
 
 libfp.a: tools/fpp $(OFILES)
 	ar rcs libfp.a $(OFILES)
-
-check: libfp.a
-	cd test; $(MAKE)
 
 # Avoid circular dependency
 tools/fpp:
@@ -40,5 +37,4 @@ tools: libfp.a
 
 clean:
 	rm -rf libfp.a $(OFILES)
-	cd test;  $(MAKE) clean
 	cd tools; $(MAKE) clean
