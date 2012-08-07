@@ -42,6 +42,7 @@ fp_t fp_abs (fp_t a);                         /* OUT <- ||A||   */
 fp_t fp_poly(fp_t coefs[], size_t n, fp_t a); /* OUT <- P(A)    */
 
 /* Auxiliary function API. */
+fp_t fp_exp (fp_t x);                         /* OUT <- EXP(X)  */
 fp_t fp_log (fp_t x);                         /* OUT <- LOG(X)  */
 fp_t fp_sqrt(fp_t x);                         /* OUT <- SQRT(X) */
 fp_t fp_agm (fp_t x, fp_t y);                 /* OUT <- M(X, Y) */

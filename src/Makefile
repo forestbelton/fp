@@ -1,5 +1,5 @@
 CFILES  := add.c sub.c misc.c mul.c div.c abs.c constants.c poly.c log.c \
- sqrt.c agm.c compare.c
+ sqrt.c agm.c compare.c exp.c
 OFILES  := $(CFILES:.c=.o)
 
 .PHONY: clean
